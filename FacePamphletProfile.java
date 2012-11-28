@@ -18,14 +18,16 @@ public class FacePamphletProfile implements FacePamphletConstants {
 	 * This method takes care of any initialization needed for
 	 * the profile.
 	 */
+	private static String NAME;
+	private TreeMap<String, FacePamphletProfile> friendMap = new TreeMap<String, FacePamphletProfile>();
+	/**COMMIT!!!!*/
 	public FacePamphletProfile(String name) {
-		// You fill this in
+		NAME = name;
 	}
 
 	/** This method returns the name associated with the profile. */ 
 	public String getName() {
-		// You fill this in.  Currently always returns the empty string.
-		return "";
+		return NAME;
 	}
 
 	/** 
@@ -67,8 +69,13 @@ public class FacePamphletProfile implements FacePamphletConstants {
 	 * a second time.)
 	 */
 	public boolean addFriend(String friend) {
-		// You fill this in.  Currently always returns true.
-		return true;
+		boolean isAdded = false;
+		if(!(friendMap.containsKey(friend)))
+				{
+					friendMap.put(friend, new FacePamphletProfile("Jimmy"));
+					isAdded = true;
+				}
+		return isAdded;
 	}
 
 	/** 
@@ -80,8 +87,13 @@ public class FacePamphletProfile implements FacePamphletConstants {
 	 * the given friend name could not be removed.)
 	 */
 	public boolean removeFriend(String friend) {
-		// You fill this in.  Currently always returns false.
-		return false;
+		boolean isRemoved = true;
+		if(friendMap.containsKey(friend))
+				{
+					friendMap.remove(friend);
+					isRemoved = false;
+				}
+		return isRemoved;
 	}
 
 	/** 

@@ -15,6 +15,9 @@ public class FacePamphletDatabase implements FacePamphletConstants {
 	 * This method takes care of any initialization needed for 
 	 * the database.
 	 */
+	
+	private TreeMap<String, FacePamphletProfile> profileMap = new TreeMap<String, FacePamphletProfile>();
+	/**	*/
 	public FacePamphletDatabase() {
 		// You fill this in
 	}
@@ -27,7 +30,7 @@ public class FacePamphletDatabase implements FacePamphletConstants {
 	 * the new profile passed in.
 	 */
 	public void addProfile(FacePamphletProfile profile) {
-		// You fill this in
+		//
 	}
 
 	
