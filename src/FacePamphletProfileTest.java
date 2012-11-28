@@ -41,19 +41,30 @@ public class FacePamphletProfileTest {
 		test.setStatus("Busy");
 		assertEquals("Busy", test.getStatus());
 	}
-
 	
-	//FOR THE LAST 3, WE NEED TO HAVE SOLID IDEA OF HOW FRIENDS ARE BEING STORED
-	//DID WE DECIDE ON TREEMAP?
 	@Test
 	public void testAddFriend() {
-		fail("Not yet implemented");
+		FacePamphletProfile test = new FacePamphletProfile("Test Profile");
+		FacePamphletProfile jimmy = new FacePamphletProfile("Jimmy");
+		test.addFriend(jimmy.getName());
+		//assertEquals(1, test.getFriends().size());
+		String friend = test.getFriends().get(0);
+		assertEquals("Jimmy", friend);
 	}
 
 	@Test
 	public void testRemoveFriend() {
-		fail("Not yet implemented");
+		FacePamphletProfile test = new FacePamphletProfile("Test Profile");
+		FacePamphletProfile jimmy = new FacePamphletProfile("Jimmy");
+		test.addFriend(jimmy.getName());
+		test.removeFriend(jimmy.getName());
+		assertEquals(0, test.getFriends().size());
 	}
+	
+	//FOR THE LAST 3, WE NEED TO HAVE SOLID IDEA OF HOW FRIENDS ARE BEING STORED
+	//DID WE DECIDE ON TREEMAP?
+
+	
 
 	@Test
 	public void testGetFriends() {

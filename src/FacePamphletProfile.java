@@ -1,15 +1,7 @@
-/*
- * File: FacePamphletProfile.java
- * ------------------------------
- * This class keeps track of all the information for one profile
- * in the FacePamphlet social network.  Each profile contains a
- * name, an image (which may not always be set), a status (what 
- * the person is currently doing, which may not always be set),
- * and a list of friends.
- */
 
 import acm.graphics.*;
 import java.util.*;
+import javax.swing.JOptionPane;
 
 public class FacePamphletProfile implements FacePamphletConstants {
 	
@@ -70,11 +62,18 @@ public class FacePamphletProfile implements FacePamphletConstants {
 	 */
 	public boolean addFriend(String friend) {
 		boolean isAdded = false;
-		if(!(friendMap.containsKey(friend)))
-				{
-					friendMap.put(friend, new FacePamphletProfile("Jimmy"));
-					isAdded = true;
-				}
+		try
+		{
+			if(!(friendMap.containsKey(friend)))
+			{
+				friendMap.put(friend, new FacePamphletProfile("Jimmy"));
+				isAdded = true;
+			}
+		}
+		catch(Exception e)
+		{
+			JOptionPane.showMessageDialog(null, "Something went wrong, we couldn't add the desired profile!");
+		}
 		return isAdded;
 	}
 
@@ -88,11 +87,18 @@ public class FacePamphletProfile implements FacePamphletConstants {
 	 */
 	public boolean removeFriend(String friend) {
 		boolean isRemoved = true;
-		if(friendMap.containsKey(friend))
-				{
-					friendMap.remove(friend);
-					isRemoved = false;
-				}
+		try
+		{
+			if(friendMap.containsKey(friend))
+			{
+				friendMap.remove(friend);
+				isRemoved = false;
+			}
+		}
+		catch(Exception e)
+		{
+			JOptionPane.showMessageDialog(null, "Something went wrong, we couldn't add the desired profile!");
+		}
 		return isRemoved;
 	}
 
@@ -100,9 +106,13 @@ public class FacePamphletProfile implements FacePamphletConstants {
 	 * This method returns an iterator over the list of friends 
 	 * associated with the profile.
 	 */ 
-	public Iterator<String> getFriends() {
-		// You fill this in.  Currently always returns null.
-		return null;
+	public ArrayList<String> getFriends() {
+		ArrayList<String> friendList = new ArrayList<String>();
+		for(FacePamphletProfile friend: friendMap.values())
+		{
+			friendList.add(friend.getName());
+		}
+		return friendList;
 	}
 	
 	/** 
@@ -120,5 +130,4 @@ public class FacePamphletProfile implements FacePamphletConstants {
 		// You fill this in.  Currently always returns the empty string.
 		return "";
 	}
-	
 }

@@ -7,6 +7,7 @@
  */
 
 import java.util.*;
+import javax.swing.JOptionPane;
 
 public class FacePamphletDatabase implements FacePamphletConstants {
 
@@ -29,8 +30,19 @@ public class FacePamphletDatabase implements FacePamphletConstants {
 	 * name in the database, the existing profile is replaced by 
 	 * the new profile passed in.
 	 */
-	public void addProfile(FacePamphletProfile profile) {
-		//
+	public void addProfile(FacePamphletProfile profile) 
+	{
+		try
+		{
+			if(!(profileMap.containsValue(profile)))
+			{
+				profileMap.put(profile.getName(), profile);
+			}
+		}
+		catch(Exception e)
+		{
+			JOptionPane.showMessageDialog(null, "Something went wrong, we couldn't add the desired profile!");
+		}
 	}
 
 	
