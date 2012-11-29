@@ -21,6 +21,11 @@ public class FacePamphletProfile implements FacePamphletConstants {
 	public String getName() {
 		return NAME;
 	}
+	
+	public TreeMap<String, FacePamphletProfile> getFriendMap()
+	{
+		return friendMap;
+	}
 
 	/** 
 	 * This method returns the image associated with the profile.  
@@ -69,12 +74,13 @@ public class FacePamphletProfile implements FacePamphletConstants {
 				friendMap.put(friend, new FacePamphletProfile(friend));
 				isAdded = true;
 			}
+			return isAdded;
 		}
 		catch(Exception e)
 		{
 			JOptionPane.showMessageDialog(null, "Something went wrong, we couldn't add the desired profile!");
+			return isAdded;
 		}
-		return isAdded;
 	}
 
 	/** 
@@ -94,12 +100,13 @@ public class FacePamphletProfile implements FacePamphletConstants {
 				friendMap.remove(friend);
 				isRemoved = false;
 			}
+			return isRemoved;
 		}
 		catch(Exception e)
 		{
 			JOptionPane.showMessageDialog(null, "Something went wrong, we couldn't add the desired profile!");
+			return isRemoved;
 		}
-		return isRemoved;
 	}
 
 	/** 
@@ -133,22 +140,33 @@ public class FacePamphletProfile implements FacePamphletConstants {
 	
 	public ArrayList<String> getSecondOrderFriends()
 	{
-		ArrayList<String> friendsList = new ArrayList<String>();
-		for(int i = 0; i < friendMap.size(); i++)
+		ArrayList<String> listOfSecondFriends = new ArrayList<String>();
+		for(FacePamphletProfile friend: this.friendMap.values())
 		{
-			String friend = getFriends().get(i);
-			FacePamphletProfile newFriend = friendMap.get(friend);
-			//System.out.println("current friend: "+friend);
-			//System.out.println("outer: "+newFriend);
-			//System.out.println(getFriendsOf(friendMap.get(friend)));
-			for(int j = 0; j < getFriendsOf(newFriend).size(); j++) 
+			for(FacePamphletProfile friends: friend.friendMap.values())
 			{
-				//System.out.println(getFriendsOf(friendMap.get(friend)).get(j));
-				friendsList.add(getFriendsOf(friendMap.get(friend)).get(j));
+				
+				listOfSecondFriends.add(friends.getName());
 			}
 		}
-		return friendsList;
+		return listOfSecondFriends;
 	}
+	
+
+	/*ArrayList<String> friendsList = new ArrayList<String>();
+	ArrayList<String> secondFriends = new ArrayList<String>();
+	for(int i = 0; i < friendMap.size(); i++)
+	{
+		/*String friend = getFriends().get(i);
+		FacePamphletProfile newFriend = friendMap.get(friend);
+		friendsList = newFriend.getFriends();
+		friendsList = friendMap.get(getFriends().get(i)).getFriends();
+		for(int j = 0; j < friendsList.size(); j++)
+		{
+			//secondFriends.add(friendsList.get(j));
+			System.out.println(friendsList.get(j));
+		}
+	}*/
 	
 	/** 
 	 * This method returns a string representation of the profile.  

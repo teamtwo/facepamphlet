@@ -74,25 +74,32 @@ public class FacePamphletProfileTest {
 		ArrayList<String> testList = new ArrayList<String>();
 		testList.add("Timmy");
 		testList.add("Your Mother");
-		assertEquals(testList.size(), test.getFriendsOf(jimmy).size());
+		assertEquals(testList, test.getFriendsOf(jimmy));
 	}
 	
 	@Test
 	public void testGetSecondOrderFriends()
 	{
+		FacePamphletDatabase theBase = new FacePamphletDatabase();
 		FacePamphletProfile test = new FacePamphletProfile("Test Profile");
 		FacePamphletProfile jimmy = new FacePamphletProfile("Jimmy");
 		FacePamphletProfile timmy = new FacePamphletProfile("Timmy");
 		FacePamphletProfile shimmy = new FacePamphletProfile("Shimmy");
 		FacePamphletProfile joseph = new FacePamphletProfile("Joseph");
 		FacePamphletProfile mom = new FacePamphletProfile("Your Mother");
-		test.addFriend(jimmy.getName());
-		test.addFriend(timmy.getName());
+		theBase.addProfile(test);
+		theBase.addProfile(jimmy);
+		theBase.addProfile(timmy);
+		theBase.addProfile(shimmy);
+		theBase.addProfile(joseph);
+		theBase.addProfile(mom);
 		jimmy.addFriend(timmy.getName());
 		jimmy.addFriend(mom.getName());
 		timmy.addFriend(shimmy.getName());
 		timmy.addFriend(joseph.getName());
 		timmy.addFriend(timmy.getName());
+		test.addFriend(jimmy.getName());
+		test.addFriend(timmy.getName());
 		ArrayList<String> testList = new ArrayList<String>();
 		testList.add("Timmy");
 		testList.add("Shimmy");

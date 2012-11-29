@@ -39,6 +39,11 @@ public class FacePamphletDatabase implements FacePamphletConstants {
 			{
 				profileMap.put(profile.getName(), profile);
 			}
+			else
+			{
+				profileMap.remove(profile.getName());
+				profileMap.put(profile.getName(), profile);
+			}
 		}
 		catch(Exception e)
 		{
@@ -85,6 +90,13 @@ public class FacePamphletDatabase implements FacePamphletConstants {
 			if(profileMap.containsValue(name))
 			{
 				profileMap.remove(name);
+				for(FacePamphletProfile curr: profileMap.values())
+				{
+					if(curr.getFriendMap().containsKey(name))
+					{
+						curr.removeFriend(name);
+					}
+				}
 			}
 		}
 		catch(Exception e)
