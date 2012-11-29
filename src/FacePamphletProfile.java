@@ -1,20 +1,25 @@
 
 import acm.graphics.*;
 import java.util.*;
+
 import javax.swing.JOptionPane;
 
 public class FacePamphletProfile implements FacePamphletConstants {
+	
+	private String NAME;
+	private TreeMap<String, FacePamphletProfile> friendMap = new TreeMap<String, FacePamphletProfile>();
+	private HashMap<String,ArrayList<String>>[] messages;
 	
 	/** 
 	 * Constructor
 	 * This method takes care of any initialization needed for
 	 * the profile.
 	 */
-	private String NAME;
-	private TreeMap<String, FacePamphletProfile> friendMap = new TreeMap<String, FacePamphletProfile>();
-
 	public FacePamphletProfile(String name) {
 		NAME = name;
+		messages = (HashMap<String,ArrayList<String>>[]) new HashMap[2];
+		messages[0] = new HashMap<String,ArrayList<String>>();
+		messages[1] = new HashMap<String,ArrayList<String>>();
 	}
 
 	/** This method returns the name associated with the profile. */ 
@@ -167,7 +172,40 @@ public class FacePamphletProfile implements FacePamphletConstants {
 			System.out.println(friendsList.get(j));
 		}
 	}*/
-	
+	/**
+	 * Internal function to receive a message from another user
+	 * @param from user to receive message from
+	 * @param message message being received
+	 * @param isPrivate whether or not a message is a private message
+	 * @author Cameron Ross
+	 */
+	private void addMessage(String from, String message, boolean isPrivate) {
+		HashMap<String,ArrayList<String>> msgs;
+		if (isPrivate)
+			msgs = messages[0];
+		else
+			msgs = messages[1];
+		if (!msgs.containsKey(from))
+			msgs.put(from, new ArrayList<String>());
+		msgs.get(from).add(message);
+		
+	}
+	private Map<String, ArrayList<String>> getMessages(boolean isPrivate) {
+		HashMap<String,ArrayList<String>> msgs;
+		if (isPrivate)
+			msgs = messages[0];
+		else
+			msgs = messages[1];
+		return msgs;
+	}
+	private void clearMessages(boolean isPrivate) {
+		HashMap<String,ArrayList<String>> msgs;
+		if (isPrivate)
+			msgs = messages[0];
+		else
+			msgs = messages[1];
+		msgs.clear();
+	}
 	/** 
 	 * This method returns a string representation of the profile.  
 	 * This string is of the form: "name (status): list of friends", 
@@ -182,4 +220,27 @@ public class FacePamphletProfile implements FacePamphletConstants {
 	public String toString() {
 		return NAME+" ("+getStatus()+"): "+getFriends().toString();
 	}
+
+	public void privateMessage(String from, String message) {
+		addMessage(from, message, true);
+	}
+	public void publicMessage(String from, String message) {
+		addMessage(from, message, false);
+	}
+
+	public Map<String, ArrayList<String>> privateMessages() {
+		return getMessages(true);
+	}
+
+	public Map<String, ArrayList<String>> publicMessages() {
+		return getMessages(false);
+	}
+	
+	public void clearPrivateMessages() {
+		clearMessages(true);
+	}
+	public void clearPublicMessages() {
+		clearMessages(false);
+	}
+
 }
