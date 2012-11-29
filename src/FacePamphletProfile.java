@@ -12,7 +12,7 @@ public class FacePamphletProfile implements FacePamphletConstants {
 	 */
 	private String NAME;
 	private TreeMap<String, FacePamphletProfile> friendMap = new TreeMap<String, FacePamphletProfile>();
-	/**COMMIT!!!!*/
+
 	public FacePamphletProfile(String name) {
 		NAME = name;
 	}
@@ -104,7 +104,7 @@ public class FacePamphletProfile implements FacePamphletConstants {
 		}
 		catch(Exception e)
 		{
-			JOptionPane.showMessageDialog(null, "Something went wrong, we couldn't add the desired profile!");
+			JOptionPane.showMessageDialog(null, "Something went wrong, we couldn't remove the desired profile!");
 			return isRemoved;
 		}
 	}
@@ -180,7 +180,6 @@ public class FacePamphletProfile implements FacePamphletConstants {
 	 * would return the string: "Alice (coding): Don, Chelsea, Bob"
 	 */ 
 	public String toString() {
-		// You fill this in.  Currently always returns the empty string.
-		return "";
+		return NAME+" ("+getStatus()+"): "+getFriends().toString();
 	}
 }
