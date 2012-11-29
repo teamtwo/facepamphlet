@@ -19,8 +19,9 @@ public class FacePamphletDatabase implements FacePamphletConstants {
 	
 	private TreeMap<String, FacePamphletProfile> profileMap = new TreeMap<String, FacePamphletProfile>();
 	/**	*/
-	public FacePamphletDatabase() {
-		// You fill this in
+	public FacePamphletDatabase() 
+	{
+		//
 	}
 	
 	
@@ -51,9 +52,21 @@ public class FacePamphletDatabase implements FacePamphletConstants {
 	 * in the database.  If there is no profile in the database with 
 	 * the given name, the method returns null.
 	 */
-	public FacePamphletProfile getProfile(String name) {
-		// You fill this in.  Currently always returns null.
-		return null;
+	public FacePamphletProfile getProfile(String name) 
+	{
+		try
+		{
+			if(profileMap.containsValue(name))
+			{
+				return profileMap.get(name);
+			}
+			return null;
+		}
+		catch(Exception e)
+		{
+			JOptionPane.showMessageDialog(null, "Something went wrong, we couldn't find the desired profile!");
+			return null;
+		}
 	}
 	
 	
@@ -67,7 +80,17 @@ public class FacePamphletDatabase implements FacePamphletConstants {
 	 * the database is unchanged after calling this method.
 	 */
 	public void deleteProfile(String name) {
-		// You fill this in
+		try
+		{
+			if(profileMap.containsValue(name))
+			{
+				profileMap.remove(name);
+			}
+		}
+		catch(Exception e)
+		{
+			JOptionPane.showMessageDialog(null, "Something went wrong, we couldn't find the desired profile!");
+		}
 	}
 
 	
@@ -75,9 +98,22 @@ public class FacePamphletDatabase implements FacePamphletConstants {
 	 * This method returns true if there is a profile in the database 
 	 * that has the given name.  It returns false otherwise.
 	 */
-	public boolean containsProfile(String name) {
-		// You fill this in.  Currently always returns false.
-		return false;
+	public boolean containsProfile(String name) 
+	{
+		boolean isThere = false;
+		try
+		{
+			if(profileMap.containsValue(name))
+			{
+				isThere = true;
+			}
+			return isThere;
+		}
+		catch(Exception e)
+		{
+			JOptionPane.showMessageDialog(null, "Something went wrong... Terribly, terribly wrong...");
+			return false;
+		}
 	}
 
 }

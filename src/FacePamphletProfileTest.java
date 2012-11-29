@@ -1,5 +1,5 @@
 import static org.junit.Assert.*;
-
+import java.util.*;
 import org.junit.Test;
 import acm.graphics.*;
 
@@ -61,14 +61,43 @@ public class FacePamphletProfileTest {
 		assertEquals(0, test.getFriends().size());
 	}
 	
-	//FOR THE LAST 3, WE NEED TO HAVE SOLID IDEA OF HOW FRIENDS ARE BEING STORED
-	//DID WE DECIDE ON TREEMAP?
-
-	
-
 	@Test
-	public void testGetFriends() {
-		fail("Not yet implemented");
+	public void testGetFriendsOf()
+	{
+		FacePamphletProfile test = new FacePamphletProfile("Test Profile");
+		FacePamphletProfile jimmy = new FacePamphletProfile("Jimmy");
+		FacePamphletProfile timmy = new FacePamphletProfile("Timmy");
+		FacePamphletProfile mom = new FacePamphletProfile("Your Mother");
+		test.addFriend(jimmy.getName());
+		jimmy.addFriend(timmy.getName());
+		jimmy.addFriend(mom.getName());
+		ArrayList<String> testList = new ArrayList<String>();
+		testList.add("Timmy");
+		testList.add("Your Mother");
+		assertEquals(testList.size(), test.getFriendsOf(jimmy).size());
 	}
-
+	
+	@Test
+	public void testGetSecondOrderFriends()
+	{
+		FacePamphletProfile test = new FacePamphletProfile("Test Profile");
+		FacePamphletProfile jimmy = new FacePamphletProfile("Jimmy");
+		FacePamphletProfile timmy = new FacePamphletProfile("Timmy");
+		FacePamphletProfile shimmy = new FacePamphletProfile("Shimmy");
+		FacePamphletProfile joseph = new FacePamphletProfile("Joseph");
+		FacePamphletProfile mom = new FacePamphletProfile("Your Mother");
+		test.addFriend(jimmy.getName());
+		test.addFriend(timmy.getName());
+		jimmy.addFriend(timmy.getName());
+		jimmy.addFriend(mom.getName());
+		timmy.addFriend(shimmy.getName());
+		timmy.addFriend(joseph.getName());
+		timmy.addFriend(timmy.getName());
+		ArrayList<String> testList = new ArrayList<String>();
+		testList.add("Timmy");
+		testList.add("Shimmy");
+		testList.add("Joseph");
+		testList.add("Your Mother");
+		assertEquals(testList, test.getSecondOrderFriends());
+	}
 }
