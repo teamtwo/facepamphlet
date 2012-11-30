@@ -9,6 +9,7 @@ public class FacePamphletProfile implements FacePamphletConstants {
 	private String NAME;
 	private TreeMap<String, FacePamphletProfile> friendMap = new TreeMap<String, FacePamphletProfile>();
 	private HashMap<String,ArrayList<String>>[] messages;
+	private ArrayList<String> notifications;
 	
 	/** 
 	 * Constructor
@@ -20,6 +21,7 @@ public class FacePamphletProfile implements FacePamphletConstants {
 		messages = (HashMap<String,ArrayList<String>>[]) new HashMap[2];
 		messages[0] = new HashMap<String,ArrayList<String>>();
 		messages[1] = new HashMap<String,ArrayList<String>>();
+		notifications = new ArrayList<String>();
 	}
 
 	/** This method returns the name associated with the profile. */ 
@@ -190,14 +192,25 @@ public class FacePamphletProfile implements FacePamphletConstants {
 		msgs.get(from).add(message);
 		
 	}
+	/**
+	 * Internal function for retrieving messages sent to this user.
+	 * @param isPrivate Whether or not it should retrieve private messages
+	 * @return A map of users and their corresponding messages
+	 * @author Cameron Ross
+ 	 */
 	private Map<String, ArrayList<String>> getMessages(boolean isPrivate) {
 		HashMap<String,ArrayList<String>> msgs;
 		if (isPrivate)
 			msgs = messages[0];
 		else
 			msgs = messages[1];
-		return msgs;
+		return (Map<String, ArrayList<String>>) msgs.clone();
 	}
+	/**
+	 * Internal function for clearing messages
+	 * @param isPrivate Whether or not it should clear private messages
+	 * @author Cameron Ross
+	 */
 	private void clearMessages(boolean isPrivate) {
 		HashMap<String,ArrayList<String>> msgs;
 		if (isPrivate)
@@ -220,27 +233,90 @@ public class FacePamphletProfile implements FacePamphletConstants {
 	public String toString() {
 		return NAME+" ("+getStatus()+"): "+getFriends().toString();
 	}
-
+	/**
+	 * Receive a private message.
+	 * @param from User this message is originating from
+	 * @param message Message to receive
+	 * @author Cameron Ross
+	 */
 	public void privateMessage(String from, String message) {
 		addMessage(from, message, true);
+		addNotification("Received a private message from " + from);
 	}
+	/**
+	 * Receive a public message. These messages will be readable
+	 * by other users
+	 * @param from User this message is originating from
+	 * @param message Message to receive
+	 * @author Cameron Ross
+	 */
 	public void publicMessage(String from, String message) {
 		addMessage(from, message, false);
+		addNotification("Received a public message from " + from);
 	}
-
+	/**
+	 * Retrieve a list of private messages for this profile.
+	 * @return All private messages received by this user.
+	 * @author Cameron Ross
+	 */
 	public Map<String, ArrayList<String>> privateMessages() {
 		return getMessages(true);
 	}
 
+	/**
+	 * Retrieve a list of public messages for this profile.
+	 * @return All public messages received by this user.
+	 * @author Cameron Ross
+	 */
 	public Map<String, ArrayList<String>> publicMessages() {
 		return getMessages(false);
 	}
-	
+
+	/**
+	 * Clear all private messages received by this user.
+	 * @author Cameron Ross
+	 */
 	public void clearPrivateMessages() {
 		clearMessages(true);
 	}
+	/**
+	 * Clear all public messages received by this user.
+	 * @author Cameron Ross
+	 */
 	public void clearPublicMessages() {
 		clearMessages(false);
+	}
+	/**
+	 * Add notification for this user.
+	 * @param message A notification for this user to receive
+	 * @author Cameron Ross
+	 */
+	public void addNotification(String message) {
+		notifications.add(message);
+	}
+	/**
+	 * Retrieves a list of unread notifications.
+	 * @return a list of notifications for this user.
+	 * @author Cameron Ross
+	 */
+	public List<String> getNotifications() {
+		return (ArrayList<String>) notifications.clone();
+	}
+	/**
+	 * Clear a single notification.
+	 * @param id The ID number of the notification to clear.
+	 * @author Cameron Ross
+	 */
+	public void clearNotification(int id) {
+		notifications.remove(id);
+	}
+	/**
+	 * Clears all notifications this user has received
+	 * @author Cameron Ross
+	 */
+	public void clearAllNotifications() {
+		while(notifications.size() > 0)
+			clearNotification(0);
 	}
 
 }

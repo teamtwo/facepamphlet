@@ -12,7 +12,12 @@ public class FacePamphletMessagingTest {
 		database = new FacePamphletDatabase();
 		profile = new FacePamphletProfile("Andy Derple");
 	}
-
+	/**
+	 * Tests the public messaging system.
+	 * Covers the basics of receiving a public message,
+	 * as well as clearing public messages.
+	 * @author Cameron Ross
+	 */
 	@Test
 	public void publicMessageTest() {
 		try {
@@ -29,7 +34,13 @@ public class FacePamphletMessagingTest {
 		}
 		assertNull(profile.publicMessages().get("Brobert"));
 	}
-	
+
+	/**
+	 * Tests the private messaging system.
+	 * Covers the basics of receiving a private message,
+	 * as well as clearing private messages.
+	 * @author Cameron Ross
+	 */
 	@Test
 	public void privateMessageTest() {
 		try {
