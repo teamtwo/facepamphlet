@@ -7,6 +7,8 @@ import javax.swing.JOptionPane;
 public class FacePamphletProfile implements FacePamphletConstants {
 	
 	private String NAME;
+	private int BIRTHDAY_MONTH;
+	private int BIRTHDAY_DATE;
 	private TreeMap<String, FacePamphletProfile> friendMap = new TreeMap<String, FacePamphletProfile>();
 	private HashMap<String,ArrayList<String>>[] messages;
 	private ArrayList<String> notifications;
@@ -22,6 +24,25 @@ public class FacePamphletProfile implements FacePamphletConstants {
 		messages[0] = new HashMap<String,ArrayList<String>>();
 		messages[1] = new HashMap<String,ArrayList<String>>();
 		notifications = new ArrayList<String>();
+	}
+	
+	/**
+	 * @author Sarah
+	 * 
+	 * Constructor
+	 * Same as above but can create a profile with a birthday
+	 * 
+	 */
+	public FacePamphletProfile(String name, int bdayMonth, int bdayDate)
+	{
+		NAME = name;
+		BIRTHDAY_MONTH = bdayMonth;
+		BIRTHDAY_DATE = bdayDate;
+		messages = (HashMap<String,ArrayList<String>>[]) new HashMap[2];
+		messages[0] = new HashMap<String,ArrayList<String>>();
+		messages[1] = new HashMap<String,ArrayList<String>>();
+		notifications = new ArrayList<String>();
+		
 	}
 
 	/** This method returns the name associated with the profile. */ 
@@ -62,7 +83,40 @@ public class FacePamphletProfile implements FacePamphletConstants {
 	public void setStatus(String status) {
 		// You fill this in
 	}
+	
+	/**
+	 * @author Sarah van der Laan
+	 * @return
+	 * 
+	 * This method returns the birthday month associated with the profile
+	 * 
+	 */
+	public int getBirthdayMonth(){
+		return BIRTHDAY_MONTH;}
+	
 
+	/**
+	 * @author Sarah van der Laan
+	 * @return
+	 * 
+	 * This method returns the birthday date associated with the profile
+	 * 
+	 */
+	public int getBirthdayDate(){
+		return BIRTHDAY_DATE;}
+	
+	/**
+	 * @author Sarah van der Laan
+	 * 
+	 * This method sets the birthday associated with the profile
+	 * 
+	 */
+	public void setBirthday(int month, int date){
+		BIRTHDAY_MONTH = month;
+		BIRTHDAY_DATE = date;
+		}
+	
+	
 	/** 
 	 * This method adds the named friend to this profile's list of 
 	 * friends.  It returns true if the friend's name was not already
@@ -72,6 +126,7 @@ public class FacePamphletProfile implements FacePamphletConstants {
 	 * case, the given friend name is not added to the list of friends 
 	 * a second time.)
 	 */
+	
 	public boolean addFriend(String friend) {
 		boolean isAdded = false;
 		try
@@ -89,6 +144,7 @@ public class FacePamphletProfile implements FacePamphletConstants {
 			return isAdded;
 		}
 	}
+
 
 	/** 
 	 * This method removes the named friend from this profile's list
@@ -317,6 +373,26 @@ public class FacePamphletProfile implements FacePamphletConstants {
 	public void clearAllNotifications() {
 		while(notifications.size() > 0)
 			clearNotification(0);
+	}
+	
+	
+	/**
+	 * @author Sarah van der Laan
+	 */
+	public void addBirthdayNotifications(){
+		for(FacePamphletProfile friend: friendMap.values())
+		{
+			Calendar cal = Calendar.getInstance();
+			
+			if(friend.getBirthdayMonth()==cal.MONTH && (friend.getBirthdayDate()-cal.DATE) < 7)
+			{
+				notifications.add(friend + "'s birthday is coming up on " + friend.getBirthdayMonth() + "/" + friend.getBirthdayDate() + "!!");
+			}
+			/**
+			else if(friend.getBirthdayDate()==31 && friend.getBirthdayMonth() == cal.MONTH-1)
+				notifications.add(friend + "'s birthday is coming up on " + friend.getBirthdayMonth() + "/" + friend.getBirthdayDate() + "!!");
+				*/  //NEED TO COVER OTHER CASES
+		}
 	}
 
 }

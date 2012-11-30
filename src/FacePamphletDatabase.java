@@ -18,7 +18,8 @@ public class FacePamphletDatabase implements FacePamphletConstants {
 	 */
 	
 	private TreeMap<String, FacePamphletProfile> profileMap = new TreeMap<String, FacePamphletProfile>();
-	/**	*/
+	
+	
 	public FacePamphletDatabase() 
 	{
 		//
@@ -39,11 +40,13 @@ public class FacePamphletDatabase implements FacePamphletConstants {
 			{
 				profileMap.put(profile.getName(), profile);
 			}
+			
 			else
 			{
 				profileMap.remove(profile.getName());
 				profileMap.put(profile.getName(), profile);
 			}
+			
 		}
 		catch(Exception e)
 		{
@@ -61,7 +64,7 @@ public class FacePamphletDatabase implements FacePamphletConstants {
 	{
 		try
 		{
-			if(profileMap.containsValue(name))
+			if(profileMap.containsKey(name))
 			{
 				return profileMap.get(name);
 			}
@@ -87,7 +90,7 @@ public class FacePamphletDatabase implements FacePamphletConstants {
 	public void deleteProfile(String name) {
 		try
 		{
-			if(profileMap.containsValue(name))
+			if(profileMap.containsKey(name))
 			{
 				profileMap.remove(name);
 				for(FacePamphletProfile curr: profileMap.values())
@@ -115,7 +118,7 @@ public class FacePamphletDatabase implements FacePamphletConstants {
 		boolean isThere = false;
 		try
 		{
-			if(profileMap.containsValue(name))
+			if(profileMap.containsKey(name))
 			{
 				isThere = true;
 			}

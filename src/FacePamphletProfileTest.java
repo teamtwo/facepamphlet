@@ -43,6 +43,21 @@ public class FacePamphletProfileTest {
 	}
 	
 	@Test
+	public void testGetBirthday() {
+		FacePamphletProfile test = new FacePamphletProfile("Test Profile");
+		test.setBirthday(1,8);
+		assertTrue(test.getBirthdayMonth()==1 && test.getBirthdayDate()==8);
+		
+	}
+	
+	@Test
+	public void testSetBirthday() {
+		FacePamphletProfile test = new FacePamphletProfile("Test Profile");
+		test.setBirthday(2,7);
+		assertTrue(test.getBirthdayDate()==2 && test.getBirthdayMonth()==7);
+	}
+	
+	@Test
 	public void testAddFriend() {
 		FacePamphletProfile test = new FacePamphletProfile("Test Profile");
 		FacePamphletProfile jimmy = new FacePamphletProfile("Jimmy");
@@ -107,4 +122,18 @@ public class FacePamphletProfileTest {
 		testList.add("Your Mother");
 		assertEquals(testList, test.getSecondOrderFriends());
 	}
+	
+	@Test
+	public void testAddBirthdayNotification()
+	{
+		FacePamphletProfile test = new FacePamphletProfile("Test Profile");
+		FacePamphletProfile jimmy = new FacePamphletProfile("Jimmy");
+		jimmy.setBirthday(5,15);
+		test.addFriend(jimmy.getName());
+		test.addBirthdayNotifications();
+
+		assertTrue(test.getNotifications().contains("Jimmy's birthday is coming up on 5/15!!"));
+	}
+
+		
 }

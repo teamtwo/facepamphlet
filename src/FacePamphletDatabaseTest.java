@@ -30,12 +30,12 @@ public class FacePamphletDatabaseTest {
 		
 	}
 
-	
-	//NOT QUITE SURE HOW TO TEST THIS.
-	//OTHER METHODS DEPEND ON IT, THOUGH.
 	@Test
 	public void testContainsProfile() {
-		fail("Not yet implemented");
+		FacePamphletDatabase test = new FacePamphletDatabase();
+		FacePamphletProfile testProfile = new FacePamphletProfile("Test Profile");
+		test.addProfile(testProfile);
+		assertTrue(test.containsProfile("Test Profile"));
 	}
 
 }
