@@ -1,6 +1,10 @@
 
 import acm.graphics.*;
+
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.*;
+import java.text.SimpleDateFormat;
 
 import javax.swing.JOptionPane;
 
@@ -12,6 +16,9 @@ public class FacePamphletProfile implements FacePamphletConstants {
 	private TreeMap<String, FacePamphletProfile> friendMap = new TreeMap<String, FacePamphletProfile>();
 	private HashMap<String,ArrayList<String>>[] messages;
 	private ArrayList<String> notifications;
+	private boolean hackMode = false;
+	private int hackCounter = 0;
+	private Random randomGenerator;
 	
 	/** 
 	 * Constructor
@@ -42,7 +49,8 @@ public class FacePamphletProfile implements FacePamphletConstants {
 		messages[0] = new HashMap<String,ArrayList<String>>();
 		messages[1] = new HashMap<String,ArrayList<String>>();
 		notifications = new ArrayList<String>();
-		
+		randomGenerator = new Random();
+
 	}
 
 	/** This method returns the name associated with the profile. */ 
@@ -66,6 +74,7 @@ public class FacePamphletProfile implements FacePamphletConstants {
 
 	/** This method sets the image associated with the profile. */ 
 	public void setImage(GImage image) {
+		HackMe();
 		// You fill this in
 	}
 	
@@ -81,6 +90,7 @@ public class FacePamphletProfile implements FacePamphletConstants {
 	
 	/** This method sets the status associated with the profile. */ 
 	public void setStatus(String status) {
+		HackMe();
 		// You fill this in
 	}
 	
@@ -127,13 +137,16 @@ public class FacePamphletProfile implements FacePamphletConstants {
 	 * a second time.)
 	 */
 	
-	public boolean addFriend(String friend) {
+	//Sarah changed this method to take in a FacePamphletProfile object instead of a String (in order to properly implement being notified about
+	//upcoming birthdays)
+	public boolean addFriend(FacePamphletProfile friend) {
+		HackMe();
 		boolean isAdded = false;
 		try
 		{
-			if(!(friendMap.containsKey(friend)))
+			if(!(friendMap.containsKey(friend.getName())))
 			{
-				friendMap.put(friend, new FacePamphletProfile(friend));
+				friendMap.put(friend.getName(), friend);
 				isAdded = true;
 			}
 			return isAdded;
@@ -155,6 +168,7 @@ public class FacePamphletProfile implements FacePamphletConstants {
 	 * the given friend name could not be removed.)
 	 */
 	public boolean removeFriend(String friend) {
+		HackMe();
 		boolean isRemoved = true;
 		try
 		{
@@ -238,6 +252,7 @@ public class FacePamphletProfile implements FacePamphletConstants {
 	 * @author Cameron Ross
 	 */
 	private void addMessage(String from, String message, boolean isPrivate) {
+		HackMe();
 		HashMap<String,ArrayList<String>> msgs;
 		if (isPrivate)
 			msgs = messages[0];
@@ -382,17 +397,85 @@ public class FacePamphletProfile implements FacePamphletConstants {
 	public void addBirthdayNotifications(){
 		for(FacePamphletProfile friend: friendMap.values())
 		{
-			Calendar cal = Calendar.getInstance();
+			Calendar currentDate = Calendar.getInstance();
+			SimpleDateFormat formatter= new SimpleDateFormat("MM/dd");
+			String dateNow = formatter.format(currentDate.getTime());
 			
-			if(friend.getBirthdayMonth()==cal.MONTH && (friend.getBirthdayDate()-cal.DATE) < 7)
+			if(friend.getBirthdayMonth() == Integer.parseInt(dateNow.substring(0, 2)) && (friend.getBirthdayDate() - Integer.parseInt(dateNow.substring(3,5)) < 7))
 			{
-				notifications.add(friend + "'s birthday is coming up on " + friend.getBirthdayMonth() + "/" + friend.getBirthdayDate() + "!!");
+				notifications.add(friend.getName() + "'s birthday is coming up on " + friend.getBirthdayMonth() + "/" + friend.getBirthdayDate() + "!!");
 			}
-			/**
-			else if(friend.getBirthdayDate()==31 && friend.getBirthdayMonth() == cal.MONTH-1)
-				notifications.add(friend + "'s birthday is coming up on " + friend.getBirthdayMonth() + "/" + friend.getBirthdayDate() + "!!");
-				*/  //NEED TO COVER OTHER CASES
+
+			//NEED TO COVER OTHER CASES
 		}
 	}
 
+	/**
+	 * Clears hacking mode for this user.
+	 * @author Cameron Ross
+	 */
+
+	public void clearHackMode() {
+		hackMode = false;
+	}
+	/**
+	 * Sets hacking mode for this user.
+	 * @author Cameron Ross
+	 */
+	public void setHackMode() {
+		hackMode = true;
+		hackCounter = randomGenerator.nextInt(15);
+	}
+	/**
+	 * Find out when this user will next be "hacked"
+	 * @return User actions until next "hacking"
+	 * @author Cameron Ross
+	 */
+	public int timeToNextHack() {
+		return hackCounter;
+	}
+	/**
+	 * Changes random details for this profile when "hacked"
+	 * @author Cameron Ross
+	 */
+	private void HackMe() {
+		if (!hackMode)
+			return;
+		if (hackCounter >= 0) {
+			hackCounter--;
+			return;
+		}
+		hackMode = false;
+		if (hackCounter < 0) {
+			hackCounter = randomGenerator.nextInt(15);
+		}
+		int numChanges = 0;
+		/*if (randomGenerator.nextBoolean()) {
+			setImage(null);
+			numChanges++;
+		}*/
+		if (numChanges == 0)
+			HackStatus();
+		hackMode = true;
+	}
+	/**
+	 * Changes the user's status message to something random
+	 * @author Cameron Ross
+	 */
+	private void HackStatus() {
+		File file = new File("hackstatus.txt");
+		String status = "";
+		String possibleStatus = "";
+		int randLine = 0;
+		try {
+			for (Scanner scan = new Scanner(file); scan.hasNext(); ) {
+				++randLine;
+				possibleStatus = scan.nextLine();
+				if (randomGenerator.nextInt(randLine) == 0)
+					status = possibleStatus;
+			}
+		} catch (Exception e) {
+		}
+		setStatus(status);
+	}
 }

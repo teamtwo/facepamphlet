@@ -1,5 +1,8 @@
 import static org.junit.Assert.*;
+
+import java.text.SimpleDateFormat;
 import java.util.*;
+
 import org.junit.Test;
 import acm.graphics.*;
 
@@ -54,14 +57,14 @@ public class FacePamphletProfileTest {
 	public void testSetBirthday() {
 		FacePamphletProfile test = new FacePamphletProfile("Test Profile");
 		test.setBirthday(2,7);
-		assertTrue(test.getBirthdayDate()==2 && test.getBirthdayMonth()==7);
+		assertTrue(test.getBirthdayMonth()==2 && test.getBirthdayDate()==7);
 	}
 	
 	@Test
 	public void testAddFriend() {
 		FacePamphletProfile test = new FacePamphletProfile("Test Profile");
 		FacePamphletProfile jimmy = new FacePamphletProfile("Jimmy");
-		test.addFriend(jimmy.getName());
+		test.addFriend(jimmy);
 		//assertEquals(1, test.getFriends().size());
 		String friend = test.getFriends().get(0);
 		assertEquals("Jimmy", friend);
@@ -71,7 +74,7 @@ public class FacePamphletProfileTest {
 	public void testRemoveFriend() {
 		FacePamphletProfile test = new FacePamphletProfile("Test Profile");
 		FacePamphletProfile jimmy = new FacePamphletProfile("Jimmy");
-		test.addFriend(jimmy.getName());
+		test.addFriend(jimmy);
 		test.removeFriend(jimmy.getName());
 		assertEquals(0, test.getFriends().size());
 	}
@@ -83,9 +86,9 @@ public class FacePamphletProfileTest {
 		FacePamphletProfile jimmy = new FacePamphletProfile("Jimmy");
 		FacePamphletProfile timmy = new FacePamphletProfile("Timmy");
 		FacePamphletProfile mom = new FacePamphletProfile("Your Mother");
-		test.addFriend(jimmy.getName());
-		jimmy.addFriend(timmy.getName());
-		jimmy.addFriend(mom.getName());
+		test.addFriend(jimmy);
+		jimmy.addFriend(timmy);
+		jimmy.addFriend(mom);
 		ArrayList<String> testList = new ArrayList<String>();
 		testList.add("Timmy");
 		testList.add("Your Mother");
@@ -108,13 +111,13 @@ public class FacePamphletProfileTest {
 		theBase.addProfile(shimmy);
 		theBase.addProfile(joseph);
 		theBase.addProfile(mom);
-		jimmy.addFriend(timmy.getName());
-		jimmy.addFriend(mom.getName());
-		timmy.addFriend(shimmy.getName());
-		timmy.addFriend(joseph.getName());
-		timmy.addFriend(timmy.getName());
-		test.addFriend(jimmy.getName());
-		test.addFriend(timmy.getName());
+		jimmy.addFriend(timmy);
+		jimmy.addFriend(mom);
+		timmy.addFriend(shimmy);
+		timmy.addFriend(joseph);
+		timmy.addFriend(timmy);
+		test.addFriend(jimmy);
+		test.addFriend(timmy);
 		ArrayList<String> testList = new ArrayList<String>();
 		testList.add("Timmy");
 		testList.add("Shimmy");
@@ -128,11 +131,17 @@ public class FacePamphletProfileTest {
 	{
 		FacePamphletProfile test = new FacePamphletProfile("Test Profile");
 		FacePamphletProfile jimmy = new FacePamphletProfile("Jimmy");
-		jimmy.setBirthday(5,15);
-		test.addFriend(jimmy.getName());
-		test.addBirthdayNotifications();
+			
+		Calendar currentDate = Calendar.getInstance();
+		SimpleDateFormat formatter= new SimpleDateFormat("MM/dd");
+		String dateNow = formatter.format(currentDate.getTime());
 
-		assertTrue(test.getNotifications().contains("Jimmy's birthday is coming up on 5/15!!"));
+		jimmy.setBirthday(11,30);
+		
+		test.addFriend(jimmy);
+		test.addBirthdayNotifications();
+		
+		assertTrue(test.getNotifications().contains("Jimmy's birthday is coming up on 11/30!!"));
 	}
 
 		
