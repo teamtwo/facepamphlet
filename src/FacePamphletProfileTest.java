@@ -136,12 +136,12 @@ public class FacePamphletProfileTest {
 		SimpleDateFormat formatter= new SimpleDateFormat("MM/dd");
 		String dateNow = formatter.format(currentDate.getTime());
 
-		jimmy.setBirthday(11,30);
+		jimmy.setBirthday(12,4);
 		
 		test.addFriend(jimmy);
 		test.addBirthdayNotifications();
 		
-		assertTrue(test.getNotifications().contains("Jimmy's birthday is coming up on 11/30!!"));
+		assertTrue(test.getNotifications().contains("Jimmy's birthday is coming up on 12/4!!"));
 	}
 	
 	
