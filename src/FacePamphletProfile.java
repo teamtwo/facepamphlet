@@ -19,6 +19,7 @@ public class FacePamphletProfile implements FacePamphletConstants {
 	private boolean hackMode = false;
 	private int hackCounter = 0;
 	private Random randomGenerator;
+	private FacePamphletProfile subprofile;
 	
 	/** 
 	 * Constructor
@@ -477,5 +478,28 @@ public class FacePamphletProfile implements FacePamphletConstants {
 		} catch (Exception e) {
 		}
 		setStatus(status);
+	}
+	
+	
+	/**
+	 * @author Sarah van der Laan
+	 * 
+	 * This method allows a user to create a subprofile for their cat, etc.
+	 */
+	public void createSubProfile(String name)
+	{
+		subprofile = new FacePamphletProfile(name);
+		
+	}
+	
+	/**
+	 * @author Sarah van der Laan
+	 * 
+	 * Get the subprofile associated with the current profile
+	 * 
+	 */
+	public FacePamphletProfile getSubProfile()
+	{
+		return subprofile;
 	}
 }

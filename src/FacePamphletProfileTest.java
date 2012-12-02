@@ -143,6 +143,17 @@ public class FacePamphletProfileTest {
 		
 		assertTrue(test.getNotifications().contains("Jimmy's birthday is coming up on 11/30!!"));
 	}
+	
+	
+	@Test
+	public void createSubProfileTest()
+	{
+		FacePamphletProfile test = new FacePamphletProfile("Test Profile");
+		
+		test.createSubProfile("Kitty");
+		
+		assertTrue(test.getSubProfile().equals(new FacePamphletProfile("Kitty")));
+	}
 
 		
 }
