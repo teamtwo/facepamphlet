@@ -152,7 +152,7 @@ public class FacePamphletProfileTest {
 		
 		test.createSubProfile("Kitty");
 		
-		assertTrue(test.getSubProfile().equals(new FacePamphletProfile("Kitty")));
+		assertTrue(test.getSubProfile().getName().equals("Kitty"));
 	}
 
 		
