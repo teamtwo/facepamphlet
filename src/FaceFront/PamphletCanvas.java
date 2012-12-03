@@ -15,33 +15,29 @@ import javax.swing.event.MouseInputListener;
 /**
  * This is the white canvas on the face pamphlet. It supports dragging and will
  * change the Z-level when an item is pressed. It extends ImagePanel so it may
- * have a background.
+ * have a background. <i>But I honestly didn't want FP to look like MySpace, and
+ * the team agreed, so I dropped that feature. -Stuart</i>
  *
  * @author John Maguire
+ * @author Stuart Townsend
  */
 public class PamphletCanvas extends JPanel implements MouseInputListener {
 
     private Component dragTarget = null;
 
-    public PamphletCanvas(String imagePath) {
+    public PamphletCanvas() {
         this.setOpaque(true);
         this.setForeground(Color.WHITE);
         this.setBackground(Color.WHITE);
         this.setLayout(null);
     }
 
-    public PamphletCanvas() {
-        this("");
-    }
-
     public void paintComponent(Graphics g) {
-        // g.drawRect(0, 0, this.getHeight(), this.getWidth());
         if (this.getBorder() != null) {
             // this.setBorder(null);
         }
 
         super.paintComponent(g);
-
     }
     private int dx = 0;
     private int dy = 0;
@@ -51,9 +47,8 @@ public class PamphletCanvas extends JPanel implements MouseInputListener {
 
         dragTarget = this.getComponentAt(evt.getX(), evt.getY());
         dragTarget = (dragTarget == this) ? null : dragTarget;
-        
         // See Api for getComponentAt(x,y). It returns itself on some conditions.
-
+        
         if (dragTarget != null) {
             dx = dragTarget.getX() - evt.getX();
             dy = dragTarget.getY() - evt.getY();
@@ -62,25 +57,23 @@ public class PamphletCanvas extends JPanel implements MouseInputListener {
                 dx = dragTarget.getX();
                 dy = dragTarget.getY();
                 mode = 1;
-            } else {
+            } 
+            else {
                 this.mouseClicked2(evt);
-
             }
-                     this.setComponentZOrder(dragTarget,0);
-
-            //System.out.printf("%d, %d\n", dragTarget.getWidth()+dx,dragTarget.getHeight()-dy);
-
-        } else {
+            this.setComponentZOrder(dragTarget,0);
+        }
+        else {
             clickTarget = null;
         }
-        // System.out.println(dragTarget);
     }
 
     public void mouseDragged(MouseEvent evt) {
         if (dragTarget != null) {
             if (mode == 0) {
                 dragTarget.setBounds(evt.getX() + dx, evt.getY() + dy, dragTarget.getWidth(), dragTarget.getHeight());
-            } else {
+            } 
+            else {
                 int newX = Math.min(evt.getX(), dx);
                 int newY = Math.min(evt.getY(), dy);
                 int newWidth = Math.abs(evt.getX() - dx);
@@ -115,6 +108,8 @@ public class PamphletCanvas extends JPanel implements MouseInputListener {
      * network.
      */
     public void displayProfile(FacePamphletProfile profile) {
+        
+        
         // You fill this in
     }
     private Component clickTarget = null;

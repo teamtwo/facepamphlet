@@ -1,9 +1,9 @@
 package FaceFront;
 
-/* To change this template, choose Tools | Templates and open the template in the editor. */
 /**
- *
- * @author John
+ * 
+ * 
+ * @authors John Maguire, Stuart Townsend
  */
 import java.awt.Color;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -20,13 +20,14 @@ import javax.swing.WindowConstants;
 
 public class PictureSelect extends javax.swing.JFrame {
 
-    private final FacePamphlet target;
-
+    private final FacePamphlet parentProfile;
+    
     /**
      * Creates new form PictureSelect
      */
     public PictureSelect(FacePamphlet returnTo) {
-        this.target = returnTo;
+        this.parentProfile = returnTo;
+        parentProfile.setVisible(true);
         initComponents();
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -42,11 +43,12 @@ public class PictureSelect extends javax.swing.JFrame {
 
         PictureChoose = new javax.swing.JFileChooser();
         jLabel1 = new javax.swing.JLabel();
-        FileSelectedField = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        FilepathField = new javax.swing.JTextField();
+        submitPicSelectionButton = new javax.swing.JButton();
         TextTitleField = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         Submit = new javax.swing.JButton();
+        cancelButton = new javax.swing.JButton();
 
         PictureChoose.setFileFilter(new FileNameExtensionFilter("Image Files", "GIF", "PNG", "JPG","JPEG", "BMP", "WBMP"));
         PictureChoose.addActionListener(new java.awt.event.ActionListener() {
@@ -56,6 +58,9 @@ public class PictureSelect extends javax.swing.JFrame {
         });
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Choose Profile Picture");
+        setAlwaysOnTop(true);
+        setLocationByPlatform(true);
         setName("Picture Selection"); // NOI18N
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
@@ -63,19 +68,22 @@ public class PictureSelect extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setLabelFor(FileSelectedField);
+        jLabel1.setLabelFor(FilepathField);
         jLabel1.setText("Picture Selected:");
 
-        
-
-        jButton1.setText("Browse");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        FilepathField.setToolTipText("");
+        FilepathField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                FilepathFieldActionPerformed(evt);
             }
         });
 
-      
+        submitPicSelectionButton.setText("Browse");
+        submitPicSelectionButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submitPicSelectionButtonActionPerformed(evt);
+            }
+        });
 
         jLabel2.setLabelFor(TextTitleField);
         jLabel2.setText("Picture Title:");
@@ -87,48 +95,54 @@ public class PictureSelect extends javax.swing.JFrame {
             }
         });
 
+        cancelButton.setText("Cancel");
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(37, 37, 37)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel2)
                         .addGap(17, 17, 17)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(Submit, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(FileSelectedField, javax.swing.GroupLayout.DEFAULT_SIZE, 343, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(TextTitleField, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton1)))
-                .addContainerGap())
+                        .addComponent(submitPicSelectionButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 119, Short.MAX_VALUE)
+                        .addComponent(Submit, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(FilepathField)
+                    .addComponent(TextTitleField))
+                .addGap(17, 17, 17))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(39, 39, 39)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(28, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(TextTitleField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(FileSelectedField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1)
-                    .addComponent(jButton1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(Submit)
+                    .addComponent(FilepathField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Submit)
+                    .addComponent(submitPicSelectionButton)
+                    .addComponent(cancelButton))
                 .addContainerGap())
         );
 
@@ -136,15 +150,22 @@ public class PictureSelect extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        target.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_formWindowClosed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton1ActionPerformed
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_cancelButtonActionPerformed
+
+    private void FilepathFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FilepathFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_FilepathFieldActionPerformed
+
+    private void submitPicSelectionButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton1ActionPerformed
         PictureChoose.showOpenDialog(this);
         File selPic = PictureChoose.getSelectedFile();
         if (selPic != null) {
-            FileSelectedField.setText(selPic.getAbsolutePath());
+            FilepathField.setText(selPic.getAbsolutePath());
         }
     }// GEN-LAST:event_jButton1ActionPerformed
 
@@ -155,18 +176,15 @@ public class PictureSelect extends javax.swing.JFrame {
         // TODO add your handling code here:
     }// GEN-LAST:event_TextTitleFieldActionPerformed
 
-    private void FileSelectedFieldActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_FileSelectedFieldActionPerformed
-    }// GEN-LAST:event_FileSelectedFieldActionPerformed
-
     private void SubmitActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_SubmitActionPerformed
 
         try {
             // GEN-FIRST:event_PictureChooseActionPerformed
-            BufferedImage toAdd = ImageIO.read(new File(FileSelectedField.getText()));
-            this.target.addPicture(TextTitleField.getText(), toAdd);
+            BufferedImage toAdd = ImageIO.read(new File(FilepathField.getText()));
+            this.parentProfile.addPicture(TextTitleField.getText(), toAdd);
             this.formWindowClosed(null);
         } catch (IOException ex) {
-            FileSelectedField.setBorder(BorderFactory.createLineBorder(Color.RED));
+            FilepathField.setBorder(BorderFactory.createLineBorder(Color.RED));
             //Logger.getLogger(PictureSelect.class.getName()).log(Level.SEVERE, null, ex);
         }
     }// GEN-LAST:event_SubmitActionPerformed
@@ -205,12 +223,13 @@ public class PictureSelect extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField FileSelectedField;
+    private javax.swing.JTextField FilepathField;
     private javax.swing.JFileChooser PictureChoose;
     private javax.swing.JButton Submit;
     private javax.swing.JTextField TextTitleField;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton cancelButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JButton submitPicSelectionButton;
     // End of variables declaration//GEN-END:variables
 }

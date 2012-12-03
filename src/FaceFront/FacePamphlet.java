@@ -1,26 +1,36 @@
 package FaceFront;
 
 import Panels.ImagePanel;
+import FaceBack.*;
+
+import java.util.Arrays;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.util.Arrays;
 
 import javax.swing.JOptionPane;
 import javax.swing.event.MouseInputListener;
 
-/* To change this template, choose Tools | Templates and open the template in the editor. */
 /**
- *
+ * The application itself. 
+ * 
+ * 
  * @author John Maguire
+ * @author Stuart Townsend
  */
 public class FacePamphlet extends javax.swing.JFrame {
 
-    public enum BarType {
-
-        FRIEND, OWN
+    public FacePamphletProfile userProfile;
+    public FacePamphletProfile displayedProfile;
+    public FacePamphletDatabase FP_DB;
+    public boolean inTestMode = true; 
+                    // ^ is a toggle for creation and population of 'test' social 
+                    // network, as laid out in test-network.txt
+    
+    public enum ViewType {
+        FRIEND, SELF
     };
 
     /**
@@ -28,32 +38,62 @@ public class FacePamphlet extends javax.swing.JFrame {
      */
     public FacePamphlet() {
         this.initComponents();
-        this.setToolBar(BarType.FRIEND);
+        if (inTestMode)
+            //FP_DB = new FPTestNetwork();
+        this.setToolBar(ViewType.FRIEND);
     }
 
-    public void setToolBar(BarType setTo) {
-        ToolsInHere.removeAll();
+    public void setToolBar(ViewType setTo) {
+        leftPane.removeAll();
         switch (setTo) {
             case FRIEND:
+                changeProfilePicButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+                addPostToProfile.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-                AddPicture.setAlignmentX(Component.CENTER_ALIGNMENT);
-                AddPost.setAlignmentX(Component.CENTER_ALIGNMENT);
-                ChangeBack.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-                ToolsInHere.add(this.AddPicture);
-                ToolsInHere.add(this.AddPost);
-                ToolsInHere.add(this.ChangeBack);
+                leftPane.add(this.changeProfilePicButton);
+                leftPane.add(this.addPostToProfile);
 
                 break;
-            case OWN:
+            case SELF:
+                changeProfilePicButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+                addPostToProfile.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+                leftPane.add(this.changeProfilePicButton);
+                leftPane.add(this.addPostToProfile);
+
                 break;
-
-
         }
-        initComponents();
-
+        //initComponents();
     }
-
+    
+    
+    //T0D0: get some handling code that actually checks to see if shit's
+    //been repainted properly. HW-style Asserts?
+    public boolean addPicture(String title, BufferedImage toAdd) {
+        ImagePanel y = new ImagePanel(title, toAdd);
+        y.setBounds(this.getWidth() / 2 -100, this.getHeight() /2 -100, 200, 200);
+        y.repaint();
+        y.setVisible(true);
+        Canvas.add(y);
+        Canvas.repaint();
+        
+        return true;
+    }
+    
+    
+    /**
+     * This method blah blah blah
+     * 
+     * @return true if somethingAboutYourself is written to the component, false otherwise
+     */
+    public boolean addBio(String somethingAboutYourself)
+    {
+        boolean writeToGUI = false;
+        //someComponentOnScreen.setTextLabel(somethingAboutYourself.trim());
+        return writeToGUI;
+    }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -63,15 +103,11 @@ public class FacePamphlet extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        PamplhetCanvas = new javax.swing.JPanel();
-        AddPicture = new javax.swing.JButton();
-        ChangeBack = new javax.swing.JButton();
-        AddPost = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        changeProfilePicButton = new javax.swing.JButton();
+        addPostToProfile = new javax.swing.JButton();
         Canvas = new PamphletCanvas();
         Testing = new javax.swing.JPanel();
-        ToolsInHere = new javax.swing.JPanel();
+        leftPane = new javax.swing.JPanel();
         MenuBar = new javax.swing.JPanel(){
 
             public void paintComponent(Graphics g){
@@ -84,44 +120,18 @@ public class FacePamphlet extends javax.swing.JFrame {
         };
         SearchField = new javax.swing.JTextField();
         SearchLabel = new javax.swing.JLabel();
+        leftCtrlPanel = new javax.swing.JPanel();
+        profileSwitchButton = new javax.swing.JButton();
+        homeButton = new javax.swing.JButton();
 
-        PamplhetCanvas.setBackground(new java.awt.Color(255, 255, 255));
-        PamplhetCanvas.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                PamplhetCanvasFocusGained(evt);
-            }
-        });
-
-        javax.swing.GroupLayout PamplhetCanvasLayout = new javax.swing.GroupLayout(PamplhetCanvas);
-        PamplhetCanvas.setLayout(PamplhetCanvasLayout);
-        PamplhetCanvasLayout.setHorizontalGroup(
-            PamplhetCanvasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        PamplhetCanvasLayout.setVerticalGroup(
-            PamplhetCanvasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
-        AddPicture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IconImages/PlusPic.png"))); // NOI18N
-        AddPicture.addActionListener(new java.awt.event.ActionListener() {
+        changeProfilePicButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IconImages/PlusPic.png"))); // NOI18N
+        changeProfilePicButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AddPictureActionPerformed(evt);
+                changeProfilePicButtonActionPerformed(evt);
             }
         });
 
-        ChangeBack.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IconImages/PlusBack.jpg"))); // NOI18N
-        ChangeBack.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ChangeBackActionPerformed(evt);
-            }
-        });
-
-        AddPost.setText("AddPost");
-
-        jButton1.setText("jButton1");
-
-        jButton2.setText("jButton2");
+        addPostToProfile.setText("AddPost");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("FacePamphlet");
@@ -139,7 +149,6 @@ public class FacePamphlet extends javax.swing.JFrame {
         });
 
         Canvas.setBackground(new java.awt.Color(255, 255, 255));
-        Canvas.setBorder(null);
         Canvas.setForeground(new java.awt.Color(255, 255, 255));
         Canvas.setToolTipText("");
         Canvas.setName("Canvas"); // NOI18N
@@ -175,11 +184,11 @@ public class FacePamphlet extends javax.swing.JFrame {
         );
 
         Canvas.add(Testing);
-        Testing.setBounds(130, 40, 100, 100);
+        Testing.setBounds(130, 80, 0, 0);
 
-        ToolsInHere.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, java.awt.Color.lightGray, null, null));
-        ToolsInHere.setPreferredSize(new java.awt.Dimension(100, 0));
-        ToolsInHere.setLayout(new javax.swing.BoxLayout(ToolsInHere, javax.swing.BoxLayout.PAGE_AXIS));
+        leftPane.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, java.awt.Color.lightGray, null, null));
+        leftPane.setPreferredSize(new java.awt.Dimension(100, 0));
+        leftPane.setLayout(new javax.swing.BoxLayout(leftPane, javax.swing.BoxLayout.PAGE_AXIS));
 
         MenuBar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, java.awt.Color.lightGray, null, null));
 
@@ -192,19 +201,19 @@ public class FacePamphlet extends javax.swing.JFrame {
             }
         });
         SearchField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                SearchFieldFocusLost(evt);
-            }
             public void focusGained(java.awt.event.FocusEvent evt) {
                 SearchFieldFocusGained(evt);
             }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                SearchFieldFocusLost(evt);
+            }
         });
         SearchField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                SearchFieldKeyTyped(evt);
-            }
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 SearchFieldKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                SearchFieldKeyTyped(evt);
             }
         });
 
@@ -216,7 +225,7 @@ public class FacePamphlet extends javax.swing.JFrame {
         MenuBarLayout.setHorizontalGroup(
             MenuBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MenuBarLayout.createSequentialGroup()
-                .addContainerGap(626, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(SearchLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(SearchField, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -231,41 +240,80 @@ public class FacePamphlet extends javax.swing.JFrame {
                     .addComponent(SearchLabel)))
         );
 
+        leftCtrlPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        profileSwitchButton.setText("Switch User");
+        profileSwitchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                profileSwitchButtonActionPerformed(evt);
+            }
+        });
+
+        homeButton.setLabel("Home");
+
+        javax.swing.GroupLayout leftCtrlPanelLayout = new javax.swing.GroupLayout(leftCtrlPanel);
+        leftCtrlPanel.setLayout(leftCtrlPanelLayout);
+        leftCtrlPanelLayout.setHorizontalGroup(
+            leftCtrlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(leftCtrlPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(leftCtrlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(profileSwitchButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(homeButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        leftCtrlPanelLayout.setVerticalGroup(
+            leftCtrlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(leftCtrlPanelLayout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addComponent(profileSwitchButton, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(homeButton)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(ToolsInHere, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(Canvas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(MenuBar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(leftCtrlPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(leftPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Canvas, javax.swing.GroupLayout.PREFERRED_SIZE, 733, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18))
+            .addComponent(MenuBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(MenuBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Canvas, javax.swing.GroupLayout.DEFAULT_SIZE, 621, Short.MAX_VALUE)
-                    .addComponent(ToolsInHere, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(Canvas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(leftCtrlPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(leftPane, javax.swing.GroupLayout.PREFERRED_SIZE, 508, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    //------------------------------------------------------------
+    //|                                                          |
+    //|                    ActionListeners                       |
+    //|                                                          |
+    //------------------------------------------------------------
+    
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
     }//GEN-LAST:event_formMouseClicked
 
-    private void ChangeBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChangeBackActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ChangeBackActionPerformed
-
-    private void AddPictureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddPictureActionPerformed
-        this.setVisible(false);
-        
-        new PictureSelect(this);
-    }//GEN-LAST:event_AddPictureActionPerformed
+    private void changeProfilePicButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeProfilePicButtonActionPerformed
+       new PictureSelect(this);
+    }//GEN-LAST:event_changeProfilePicButtonActionPerformed
 
     private void CanvasMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CanvasMouseDragged
         ((MouseMotionListener) Canvas).mouseDragged(evt);
@@ -279,8 +327,11 @@ public class FacePamphlet extends javax.swing.JFrame {
     }//GEN-LAST:event_TestingComponentMoved
 
     private void SearchFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_SearchFieldKeyPressed
-        if (evt.getKeyChar() == KeyEvent.VK_ENTER && !SearchField.getText().trim().equals("")) {
+        if (evt.getKeyChar() == KeyEvent.VK_ENTER) {
+            // && !SearchField.getText().trim().equals("")
+            
             // DO THE SEARCH
+
 
             JOptionPane.showMessageDialog(this, "Enter was pressed, would normally do search now", "To Implement",
                     JOptionPane.INFORMATION_MESSAGE);
@@ -288,7 +339,7 @@ public class FacePamphlet extends javax.swing.JFrame {
         }    }//GEN-LAST:event_SearchFieldKeyPressed
 
     private void SearchFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_SearchFieldKeyTyped
-        SearchFieldKeyPressed(evt);
+        //SearchFieldKeyPressed(evt);
     }//GEN-LAST:event_SearchFieldKeyTyped
 
     private void SearchFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_SearchFieldFocusGained
@@ -305,17 +356,23 @@ public class FacePamphlet extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_SearchFieldActionPerformed
 
-    private void PamplhetCanvasFocusGained(java.awt.event.FocusEvent evt) {
-    }
-
+    private void profileSwitchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profileSwitchButtonActionPerformed
+        // T0D0: wipe Canvas of all current Objects, gracefully kill all current profile's data structures
+        // then initialize and display someone else's profile Objects
+        
+    }//GEN-LAST:event_profileSwitchButtonActionPerformed
     private void formMousePressed(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_formMousePressed
     }// GEN-LAST:event_formMousePressed
 
-   
-
+    
+    //------------------------------------------------------------
+    //|                                                          |
+    //|              Main, Variable Declarations                 |
+    //|                                                          |
+    //------------------------------------------------------------    
     /**
      * @param args the command line arguments
-     */
+     **/
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         // <editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -347,30 +404,18 @@ public class FacePamphlet extends javax.swing.JFrame {
             }
         });
     }
-
-    public void addPicture(String title, BufferedImage toAdd) {
-        ImagePanel y = new ImagePanel(title, toAdd);
-
-        y.setBounds(this.getWidth() / 2 -100, this.getHeight() /2 -100, 200, 200);
-        int[] toPrint = new int[]{y.getX(), y.getY(), y.getWidth(), y.getHeight()};
-        System.out.printf("%s", Arrays.toString(toPrint));
-        y.repaint();
-        y.setVisible(true);
-                Canvas.add(y);
-        Canvas.repaint();
-    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton AddPicture;
-    private javax.swing.JButton AddPost;
     private javax.swing.JPanel Canvas;
-    private javax.swing.JButton ChangeBack;
     private javax.swing.JPanel MenuBar;
-    private javax.swing.JPanel PamplhetCanvas;
     private javax.swing.JTextField SearchField;
     private javax.swing.JLabel SearchLabel;
     private javax.swing.JPanel Testing;
-    private javax.swing.JPanel ToolsInHere;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton addPostToProfile;
+    private javax.swing.JButton changeProfilePicButton;
+    private javax.swing.JButton homeButton;
+    private javax.swing.JPanel leftCtrlPanel;
+    private javax.swing.JPanel leftPane;
+    private javax.swing.JButton profileSwitchButton;
     // End of variables declaration//GEN-END:variables
 }
