@@ -1,6 +1,6 @@
 package FaceFront;
 
-import Panels.ImagePanel;
+import panels.ImagePanel;
 import FaceBack.*;
 
 import java.util.Arrays;
@@ -84,6 +84,7 @@ public class FacePamphlet extends javax.swing.JFrame {
     /**
      * This method blah blah blah
      * 
+     * @author Stuart 
      * @return true if somethingAboutYourself is written to the component, false otherwise
      */
     public boolean addBio(String somethingAboutYourself)

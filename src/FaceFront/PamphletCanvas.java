@@ -1,8 +1,8 @@
 package FaceFront;
 
 import FaceBack.*;
-import Panels.FPPanel;
-import Panels.ImagePanel;
+import panels.FPPanel;
+import panels.ImagePanel;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;

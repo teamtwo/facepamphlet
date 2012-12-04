@@ -1,4 +1,4 @@
-package Panels;
+package panels;
 
 import java.awt.image.*;
 import java.io.*;
