@@ -12,15 +12,26 @@ import javax.swing.JOptionPane;
 public class FacePamphletProfile implements FacePamphletConstants {
 	
 	private String NAME;
+	private String STATUS;
+	private String BIO;
 	private int BIRTHDAY_MONTH;
 	private int BIRTHDAY_DATE;
+	
 	private TreeMap<String, FacePamphletProfile> friendMap = new TreeMap<String, FacePamphletProfile>();
 	private HashMap<String,ArrayList<String>>[] messages;
 	private ArrayList<String> notifications;
+	
 	private boolean hackMode = false;
 	private int hackCounter = 0;
 	private Random randomGenerator;
+
 	private FacePamphletProfile subprofile;
+	private boolean isSubprofile = false;
+	
+	
+	
+	
+	
 	
 	/** 
 	 * Constructor
@@ -80,54 +91,68 @@ public class FacePamphletProfile implements FacePamphletConstants {
 		// You fill this in
 	}
 	
+	
+
+    //------------------------------------------------------------
+    //|                                                          |
+    //|                    Profile Data	                         |
+    //|                                                          |
+    //------------------------------------------------------------
+    /**
+     * This method blah blah blah
+     * 
+     * @param sometingAboutYourself your bio
+     * 
+     * @author Stuart Townsend
+     * @return true if somethingAboutYourself is written to the component, false otherwise
+     */
+    public void setBio(String somethingAboutYourself)
+    {
+    	this.BIO = somethingAboutYourself;
+    	
+        //boolean writeToGUI = false;
+        //someComponentOnScreen.setTextLabel(somethingAboutYourself.trim());
+        //return writeToGUI;
+    }
+    /**
+     * This method blah blah blah
+     * 
+     * @author Stuart Townsend
+     * @return true if somethingAboutYourself is written to the component, false otherwise
+     */
+    public String getBio()
+    {
+        //boolean writeToGUI = false;
+        //someComponentOnScreen.setTextLabel(somethingAboutYourself.trim());
+        //return writeToGUI;
+    	return (this.BIO.trim());
+    }
+	/** 
+	 * This method sets the status associated with the profile.
+	 * 
+	 * @author Stuart Townsend 
+	 **/ 
+	public void setStatus(String status) {
+		HackMe();
+		this.STATUS = status;
+	}
 	/** 
 	 * This method returns the status associated with the profile.
 	 * If there is no status associated with the profile, the method
 	 * returns the empty string ("").
+	 * 
+	 * @author Stuart Townsend
 	 */ 
 	public String getStatus() {
-		// You fill this in.  Currently always returns the empty string.
+		if (this.STATUS.trim() != "")
+		{
+			return this.STATUS.trim();
+		}
 		return "";
 	}
-	
-	/** This method sets the status associated with the profile. */ 
-	public void setStatus(String status) {
-		HackMe();
-		// You fill this in
-	}
-	
-	/**
-	 * @author Sarah van der Laan
-	 * @return
-	 * 
-	 * This method returns the birthday month associated with the profile
-	 * 
-	 */
-	public int getBirthdayMonth(){
-		return BIRTHDAY_MONTH;}
+
 	
 
-	/**
-	 * @author Sarah van der Laan
-	 * @return
-	 * 
-	 * This method returns the birthday date associated with the profile
-	 * 
-	 */
-	public int getBirthdayDate(){
-		return BIRTHDAY_DATE;}
-	
-	/**
-	 * @author Sarah van der Laan
-	 * 
-	 * This method sets the birthday associated with the profile
-	 * 
-	 */
-	public void setBirthday(int month, int date){
-		BIRTHDAY_MONTH = month;
-		BIRTHDAY_DATE = date;
-		}
-	
 	
 	/** 
 	 * This method adds the named friend to this profile's list of 
@@ -139,8 +164,8 @@ public class FacePamphletProfile implements FacePamphletConstants {
 	 * a second time.)
 	 */
 	
-	//Sarah changed this method to take in a FacePamphletProfile object instead of a String (in order to properly implement being notified about
-	//upcoming birthdays)
+	//Sarah changed this method to take in a FacePamphletProfile object instead of a String (in order to 
+	//properly implement being notified about upcoming birthdays)
 	public boolean addFriend(FacePamphletProfile friend) {
 		HackMe();
 		boolean isAdded = false;
@@ -159,8 +184,6 @@ public class FacePamphletProfile implements FacePamphletConstants {
 			return isAdded;
 		}
 	}
-
-
 	/** 
 	 * This method removes the named friend from this profile's list
 	 * of friends.  It returns true if the friend's name was in the 
@@ -187,7 +210,6 @@ public class FacePamphletProfile implements FacePamphletConstants {
 			return isRemoved;
 		}
 	}
-
 	/** 
 	 * This method returns an iterator over the list of friends 
 	 * associated with the profile.
@@ -231,21 +253,30 @@ public class FacePamphletProfile implements FacePamphletConstants {
 		return listOfSecondFriends;
 	}
 	
+	
 
-	/*ArrayList<String> friendsList = new ArrayList<String>();
-	ArrayList<String> secondFriends = new ArrayList<String>();
-	for(int i = 0; i < friendMap.size(); i++)
-	{
-		/*String friend = getFriends().get(i);
-		FacePamphletProfile newFriend = friendMap.get(friend);
-		friendsList = newFriend.getFriends();
-		friendsList = friendMap.get(getFriends().get(i)).getFriends();
-		for(int j = 0; j < friendsList.size(); j++)
-		{
-			//secondFriends.add(friendsList.get(j));
-			System.out.println(friendsList.get(j));
-		}
-	}*/
+	/** 
+	 * This method returns a string representation of the profile.  
+	 * This string is of the form: "name (status): list of friends", 
+	 * where name and status are set accordingly and the list of 
+	 * friends is a comma separated list of the names of all of the 
+	 * friends in this profile.
+	 * 
+	 * For example, in a profile with name "Alice" whose status is 
+	 * "coding" and who has friends Don, Chelsea, and Bob, this method 
+	 * would return the string: "Alice (coding): Don, Chelsea, Bob"
+	 * 
+	 * @author Stuart Townsend
+	 */ 
+	public String toString() {
+		return NAME+" ("+getStatus()+"): "+getFriends().toString();
+	}
+	
+    //------------------------------------------------------------
+    //|                                                          |
+    //|                    MESSAGING	                         |
+    //|                                                          |
+    //------------------------------------------------------------
 	/**
 	 * Internal function to receive a message from another user
 	 * @param from user to receive message from
@@ -291,20 +322,6 @@ public class FacePamphletProfile implements FacePamphletConstants {
 		else
 			msgs = messages[1];
 		msgs.clear();
-	}
-	/** 
-	 * This method returns a string representation of the profile.  
-	 * This string is of the form: "name (status): list of friends", 
-	 * where name and status are set accordingly and the list of 
-	 * friends is a comma separated list of the names of all of the 
-	 * friends in this profile.
-	 * 
-	 * For example, in a profile with name "Alice" whose status is 
-	 * "coding" and who has friends Don, Chelsea, and Bob, this method 
-	 * would return the string: "Alice (coding): Don, Chelsea, Bob"
-	 */ 
-	public String toString() {
-		return NAME+" ("+getStatus()+"): "+getFriends().toString();
 	}
 	/**
 	 * Receive a private message.
@@ -392,7 +409,11 @@ public class FacePamphletProfile implements FacePamphletConstants {
 			clearNotification(0);
 	}
 	
-	
+    //------------------------------------------------------------
+    //|                                                          |
+    //|                    Birthdays	                         |
+    //|                                                          |
+    //------------------------------------------------------------	
 	/**
 	 * @author Sarah van der Laan
 	 */
@@ -411,12 +432,50 @@ public class FacePamphletProfile implements FacePamphletConstants {
 			//NEED TO COVER OTHER CASES
 		}
 	}
-
+	
+	/**
+	 * This method returns the birthday month associated with the profile
+	 * 
+	 * @author Sarah van der Laan
+	 * 
+	 * @return this profile's BIRTHDAY_MONTH
+	 */
+	public int getBirthdayMonth(){
+		return BIRTHDAY_MONTH;
+	}
+	
+	/**
+	 * This method returns the birthday day associated with the profile
+	 * 
+	 * @author Sarah van der Laan
+	 * 
+	 * 
+	 * @return this profile's BIRTHDAY_DAY
+	 */
+	public int getBirthdayDate(){
+		return BIRTHDAY_DATE;
+	}
+	
+	/**
+	 * This method sets the birthday associated with the profile
+	 * 
+	 * @author Sarah van der Laan
+	 */
+	public void setBirthday(int month, int date){
+		BIRTHDAY_MONTH = month;
+		BIRTHDAY_DATE = date;
+	}
+	
+	
+    //------------------------------------------------------------
+    //|                                                          |
+    //|                    Hack Mode	                         |
+    //|                                                          |
+    //------------------------------------------------------------
 	/**
 	 * Clears hacking mode for this user.
 	 * @author Cameron Ross
 	 */
-
 	public void clearHackMode() {
 		hackMode = false;
 	}
@@ -460,6 +519,7 @@ public class FacePamphletProfile implements FacePamphletConstants {
 			HackStatus();
 		hackMode = true;
 	}
+	
 	/**
 	 * Changes the user's status message to something random
 	 * @author Cameron Ross
@@ -481,7 +541,11 @@ public class FacePamphletProfile implements FacePamphletConstants {
 		setStatus(status);
 	}
 	
-	
+    //------------------------------------------------------------
+    //|                                                          |
+    //|                    Subprofiles                           |
+    //|                                                          |
+    //------------------------------------------------------------	
 	/**
 	 * @author Sarah van der Laan
 	 * 
@@ -489,8 +553,21 @@ public class FacePamphletProfile implements FacePamphletConstants {
 	 */
 	public void createSubProfile(String name)
 	{
-		subprofile = new FacePamphletProfile(name);
-		
+		if (this.isSubprofile())
+			subprofile = new FacePamphletProfile(name);
+		else
+			;
+		//fix later, signed Stuart
+	}
+	
+	/**
+	 * This method checks to see if the current profile is a sub-profile.
+	 * Implemented to prevent endless sub-profiling. Cats cannot have cats.
+	 * 
+	 * @author Stuart Townsend
+	 */
+	public boolean isSubprofile() {
+		return this.isSubprofile;
 	}
 	
 	/**

@@ -16,7 +16,6 @@ import javax.swing.event.MouseInputListener;
 /**
  * The application itself. 
  * 
- * 
  * @author John Maguire
  * @author Stuart Townsend
  */
@@ -81,19 +80,7 @@ public class FacePamphlet extends javax.swing.JFrame {
     }
     
     
-    /**
-     * This method blah blah blah
-     * 
-     * @author Stuart 
-     * @return true if somethingAboutYourself is written to the component, false otherwise
-     */
-    public boolean addBio(String somethingAboutYourself)
-    {
-        boolean writeToGUI = false;
-        //someComponentOnScreen.setTextLabel(somethingAboutYourself.trim());
-        return writeToGUI;
-    }
-    
+
     
     /**
      * This method is called from within the constructor to initialize the form.
