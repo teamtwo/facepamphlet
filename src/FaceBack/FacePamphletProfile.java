@@ -18,6 +18,7 @@ public class FacePamphletProfile implements FacePamphletConstants {
 	private String BIO;
 	private int BIRTHDAY_MONTH;
 	private int BIRTHDAY_DATE;
+	private ImagePanel PROFILE_PICTURE;
 	
 	private TreeMap<String, FacePamphletProfile> friendMap = new TreeMap<String, FacePamphletProfile>();
 	private HashMap<String,ArrayList<String>>[] messages;
@@ -81,16 +82,15 @@ public class FacePamphletProfile implements FacePamphletConstants {
 	 * This method returns the image associated with the profile.  
 	 * If there is no image associated with the profile, the method
 	 * returns null. */ 
-	public GImage getImage() {
+	public ImagePanel getImage() {
 		// You fill this in.  Currently always returns null.
-		return null;
+		return PROFILE_PICTURE;
 	}
 
 	/** This method sets the image associated with the profile. */ 
 	public void setImage(ImagePanel image) {
 		HackMe();
-		
-
+		PROFILE_PICTURE = image;
 	}
 	
 	
