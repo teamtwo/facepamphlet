@@ -222,7 +222,7 @@ public class FacePamphletProfile implements FacePamphletConstants {
 	/** 
 	 * This method returns an iterator over the list of friends 
 	 * associated with the profile.
-	 * 
+	 * @author - Will Stone
 	 * @return an ArrayList<String> of this profile's friends' profile names
 	 */ 
 	public ArrayList<String> getFriends() 
@@ -234,7 +234,12 @@ public class FacePamphletProfile implements FacePamphletConstants {
 		}
 		return friendList;
 	}
-	
+	/**
+	 * 
+	 * @author - Will Stone
+	 * @param friend
+	 * @return
+	 */
 	public ArrayList<String> getFriendsOf(FacePamphletProfile friend)
 	{
 		ArrayList<String> friendsList = new ArrayList<String>();
