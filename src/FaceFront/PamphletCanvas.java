@@ -44,8 +44,8 @@ public class PamphletCanvas extends JPanel implements MouseInputListener {
     private int mode = 0; //DRAG=0, INCREASE SIZE=1
     
     public PamphletCanvas() {
-    	this.removeAll();
-    	this.repaint();
+    	//this.removeAll();
+    	//this.repaint();
         this.setOpaque(true);
         this.setForeground(Color.WHITE);
         this.setBackground(Color.WHITE);
@@ -100,10 +100,13 @@ public class PamphletCanvas extends JPanel implements MouseInputListener {
         //init basic profile data
         TextPanel userInfo = new TextPanel(profile.getName());
         userInfo.setText("B-Day: "+profile.getBirthdayMonth()+"/"+profile.getBirthdayDate());
-
+        //userInfo.setBounds(250, 250, 300, 150);
+        userInfo.setLocation(25, 25);
+        
+        userInfo.repaint();
         this.add(userInfo);
-       // userInfo.setLocation(25, 25);
-        userInfo.setBounds(25, 25, 300, 150);
+        if (userInfo.isShowing())
+        	System.out.println("AARGH"+userInfo.size().toString());
 
 
         this.repaint();
