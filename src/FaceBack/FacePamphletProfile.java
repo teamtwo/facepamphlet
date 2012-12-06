@@ -9,6 +9,8 @@ import java.text.SimpleDateFormat;
 
 import javax.swing.JOptionPane;
 
+import panels.ImagePanel;
+
 public class FacePamphletProfile implements FacePamphletConstants {
 	
 	private String NAME;
@@ -85,9 +87,10 @@ public class FacePamphletProfile implements FacePamphletConstants {
 	}
 
 	/** This method sets the image associated with the profile. */ 
-	public void setImage(GImage image) {
+	public void setImage(ImagePanel image) {
 		HackMe();
-		// You fill this in
+		
+
 	}
 	
 	
@@ -253,6 +256,9 @@ public class FacePamphletProfile implements FacePamphletConstants {
 		return friendsList;
 	}
 	
+	//@author Will Stome
+	//@author Stuart Townsend
+	//prevented friends-of-friends from being added twice
 	public ArrayList<String> getSecondOrderFriends()
 	{
 		ArrayList<String> listOfSecondFriends = new ArrayList<String>();
@@ -260,8 +266,8 @@ public class FacePamphletProfile implements FacePamphletConstants {
 		{
 			for(FacePamphletProfile friends: friend.friendMap.values())
 			{
-				
-				listOfSecondFriends.add(friends.getName());
+				if (!friends.getName().equals(this.getName()) && (!listOfSecondFriends.contains(friends)))
+					listOfSecondFriends.add(friends.getName());
 			}
 		}
 		return listOfSecondFriends;
@@ -564,11 +570,12 @@ public class FacePamphletProfile implements FacePamphletConstants {
 	 */
 	public void createSubProfile(String name)
 	{
-		if (this.isSubprofile())
+		if (this.isSubprofile() == false)
 			subprofile = new FacePamphletProfile(name);
 		else
 			;
 		//fix later, signed Stuart
+		//prevents endless subprofiling
 	}
 	/**
 	 * This method checks to see if the current profile is a sub-profile.

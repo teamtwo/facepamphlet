@@ -3,6 +3,10 @@ package panels;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class ImagePanel extends FPPanel {
@@ -88,7 +92,7 @@ public class ImagePanel extends FPPanel {
      */
     public BufferedImage changeImage(String photoName, String imagePath) {
 
-        BufferedImage newPic = FPUtil.loadImage(photoName);
+        BufferedImage newPic = loadImage(photoName);
         if (newPic == null) {
             return null;
         }
@@ -105,7 +109,7 @@ public class ImagePanel extends FPPanel {
         dsPic = toMakeInto;
         picTitle = photoName;
         if (picTitle != null && !picTitle.equals("")) {
-            this.setBorder(BorderFactory.createTitledBorder(photoName));
+            this.setBorder(BorderFactory.createEtchedBorder());
         } else {
             this.setBorder(BorderFactory.createEmptyBorder());
         }
@@ -118,4 +122,19 @@ public class ImagePanel extends FPPanel {
         }
         super.paintComponents(g);
     }
+    
+    
+    
+    
+    public static BufferedImage loadImage(String aPicFile) {
+		try {
+			BufferedImage loaded = ImageIO.read(new File(aPicFile));
+			return loaded;
+		} catch (IOException e) {
+			// e.printStackTrace();
+			return null;
+		}
+	}
+    
+    
 }
