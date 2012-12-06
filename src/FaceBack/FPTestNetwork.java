@@ -10,8 +10,7 @@ import FaceBack.*;
  * @author Stuart Townsend
  */
 public class FPTestNetwork {
-    
-        /**
+	
         FacePamphletDatabase testDB = new FacePamphletDatabase();
         FacePamphletProfile testUser = new FacePamphletProfile("You. Yes, you!");
         FacePamphletProfile timmy = new FacePamphletProfile("You. Yes, you!");        
@@ -21,20 +20,45 @@ public class FPTestNetwork {
         FacePamphletProfile stuart = new FacePamphletProfile("Stuart Townsend");
         FacePamphletProfile rocco = new FacePamphletProfile("Cameron Ross");
         FacePamphletProfile will = new FacePamphletProfile("Will Stone");
-
-        testDB.addProfile(testUser);
-        testDB.addProfile(timmy);
-        testDB.addProfile(jimmy);
-        testDB.addProfile(mom);
-        testDB.addProfile(dad);
-        testDB.addProfile(stuart);
-        testDB.addProfile(rocco);
-        testDB.addProfile(will);
     
-               
-        public FacePamphletDatabase FPTestNetwork()
+        public FPTestNetwork()
         {
-            return testDB;
-        } 
-    **/
+        	addPeeps();
+        	linkFriends();
+        }
+
+        public FacePamphletDatabase testDatabaseWithUsers()
+        {
+        	return testDB;
+        }
+        
+        public void addPeeps()
+        {
+            testDB.addProfile(testUser);
+            testDB.addProfile(timmy);
+            testDB.addProfile(jimmy);
+            testDB.addProfile(mom);
+            testDB.addProfile(dad);
+            testDB.addProfile(stuart);
+            testDB.addProfile(rocco);
+            testDB.addProfile(will);
+        }
+        public void linkFriends()
+        {
+        	testUser.addFriend(rocco);
+        	testUser.addFriend(stuart);
+        	testUser.addFriend(will);
+        	testUser.addFriend(mom);
+        	testUser.addFriend(dad);
+        	rocco.addFriend(stuart);
+        	rocco.addFriend(will);
+        	rocco.addFriend(testUser);
+        	will.addFriend(rocco);
+        	will.addFriend(stuart);
+        	will.addFriend(testUser);
+        	will.addFriend(timmy);
+        	will.addFriend(jimmy);
+        	timmy.addFriend(jimmy);
+        	jimmy.addFriend(timmy);
+        }
 }

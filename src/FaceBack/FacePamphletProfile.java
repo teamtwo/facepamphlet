@@ -29,10 +29,11 @@ public class FacePamphletProfile implements FacePamphletConstants {
 	private boolean isSubprofile = false;
 	
 	
-	
-	
-	
-	
+	//------------------------------------------------------------
+    //|                                                          |
+    //|                    CONSTRUCTOR                           |
+    //|                                                          |
+    //------------------------------------------------------------
 	/** 
 	 * Constructor
 	 * This method takes care of any initialization needed for
@@ -45,7 +46,6 @@ public class FacePamphletProfile implements FacePamphletConstants {
 		messages[1] = new HashMap<String,ArrayList<String>>();
 		notifications = new ArrayList<String>();
 	}
-	
 	/**
 	 * @author Sarah
 	 * 
@@ -63,13 +63,12 @@ public class FacePamphletProfile implements FacePamphletConstants {
 		messages[1] = new HashMap<String,ArrayList<String>>();
 		notifications = new ArrayList<String>();
 		randomGenerator = new Random();
-
 	}
 
-	/** This method returns the name associated with the profile. */ 
-	public String getName() {
-		return NAME;
-	}
+	
+	
+	
+
 	
 	public TreeMap<String, FacePamphletProfile> getFriendMap()
 	{
@@ -150,7 +149,17 @@ public class FacePamphletProfile implements FacePamphletConstants {
 		}
 		return "";
 	}
-
+	public void setName(String inName) {
+		NAME = inName;
+	}
+	/** This method returns the name associated with the profile. */ 
+	public String getName() {
+		return NAME;
+	}
+	
+	
+	
+	
 	
 
 	
@@ -432,7 +441,6 @@ public class FacePamphletProfile implements FacePamphletConstants {
 			//NEED TO COVER OTHER CASES
 		}
 	}
-	
 	/**
 	 * This method returns the birthday month associated with the profile
 	 * 
@@ -443,7 +451,6 @@ public class FacePamphletProfile implements FacePamphletConstants {
 	public int getBirthdayMonth(){
 		return BIRTHDAY_MONTH;
 	}
-	
 	/**
 	 * This method returns the birthday day associated with the profile
 	 * 
@@ -455,7 +462,6 @@ public class FacePamphletProfile implements FacePamphletConstants {
 	public int getBirthdayDate(){
 		return BIRTHDAY_DATE;
 	}
-	
 	/**
 	 * This method sets the birthday associated with the profile
 	 * 
@@ -559,7 +565,6 @@ public class FacePamphletProfile implements FacePamphletConstants {
 			;
 		//fix later, signed Stuart
 	}
-	
 	/**
 	 * This method checks to see if the current profile is a sub-profile.
 	 * Implemented to prevent endless sub-profiling. Cats cannot have cats.

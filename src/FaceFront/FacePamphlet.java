@@ -7,8 +7,10 @@ import java.util.Arrays;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
+import java.awt.HeadlessException;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import java.awt.Dimension;
 
 import javax.swing.JOptionPane;
 import javax.swing.event.MouseInputListener;
@@ -21,15 +23,15 @@ import javax.swing.event.MouseInputListener;
  */
 public class FacePamphlet extends javax.swing.JFrame {
 
-    public FacePamphletProfile userProfile;
-    public FacePamphletProfile displayedProfile;
+    public static final Dimension buttonSize = new Dimension (89,23);
     public FacePamphletDatabase FP_DB;
+    
     public boolean inTestMode = true; 
                     // ^ is a toggle for creation and population of 'test' social 
                     // network, as laid out in test-network.txt
     
     public enum ViewType {
-        FRIEND, SELF
+        OTHER, SELF
     };
 
     /**
@@ -38,31 +40,38 @@ public class FacePamphlet extends javax.swing.JFrame {
     public FacePamphlet() {
         this.initComponents();
         if (inTestMode)
-            //FP_DB = new FPTestNetwork();
-        this.setToolBar(ViewType.FRIEND);
+            FP_DB = new FPTestNetwork().testDatabaseWithUsers();
+        this.setToolBar(ViewType.OTHER);
     }
 
     public void setToolBar(ViewType setTo) {
         leftPane.removeAll();
         switch (setTo) {
-            case FRIEND:
-                changeProfilePicButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+            case OTHER:
+                //changeProfilePicButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+                addFriendButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+                removeFriendButton.setAlignmentX(Component.CENTER_ALIGNMENT);
                 addPostToProfile.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-                leftPane.add(this.changeProfilePicButton);
-                leftPane.add(this.addPostToProfile);
-
+                
+                addFriendButton.setPreferredSize(buttonSize);
+                removeFriendButton.setMinimumSize(buttonSize);
+                addPostToProfile.setMinimumSize(buttonSize);
+                
+                leftPane.add(addFriendButton);
+                leftPane.add(removeFriendButton);
+                leftPane.add(addPostToProfile);
                 break;
             case SELF:
                 changeProfilePicButton.setAlignmentX(Component.CENTER_ALIGNMENT);
                 addPostToProfile.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-                leftPane.add(this.changeProfilePicButton);
-                leftPane.add(this.addPostToProfile);
-
+                
+                removeFriendButton.setPreferredSize(buttonSize);
+                addPostToProfile.setPreferredSize(buttonSize);            
+                
+                leftPane.add(changeProfilePicButton);
+                leftPane.add(addPostToProfile);
                 break;
         }
-        //initComponents();
     }
     
     
@@ -93,17 +102,18 @@ public class FacePamphlet extends javax.swing.JFrame {
 
         changeProfilePicButton = new javax.swing.JButton();
         addPostToProfile = new javax.swing.JButton();
+        removeFriendButton = new javax.swing.JButton();
+        addFriendButton = new javax.swing.JButton();
         Canvas = new PamphletCanvas();
         Testing = new javax.swing.JPanel();
+        messageLabel = new javax.swing.JLabel();
+        messageDisplayLabel = new javax.swing.JLabel();
         leftPane = new javax.swing.JPanel();
         MenuBar = new javax.swing.JPanel(){
 
             public void paintComponent(Graphics g){
                 super.paintComponent(g);
-                for(Component j:MenuBar.getComponents()){
-                    System.out.println(j);
-                }
-                System.out.println("\n\n");
+                
             }
         };
         SearchField = new javax.swing.JTextField();
@@ -120,6 +130,17 @@ public class FacePamphlet extends javax.swing.JFrame {
         });
 
         addPostToProfile.setText("AddPost");
+        addPostToProfile.setMaximumSize(new java.awt.Dimension(59, 23));
+        addPostToProfile.setMinimumSize(new java.awt.Dimension(59, 23));
+
+        removeFriendButton.setLabel("Remove");
+        removeFriendButton.setMaximumSize(new java.awt.Dimension(89, 23));
+        removeFriendButton.setMinimumSize(new java.awt.Dimension(89, 23));
+
+        addFriendButton.setText("Add");
+        addFriendButton.setMaximumSize(new java.awt.Dimension(89, 23));
+        addFriendButton.setMinimumSize(new java.awt.Dimension(89, 23));
+        addFriendButton.setPreferredSize(new java.awt.Dimension(89, 23));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("FacePamphlet");
@@ -172,7 +193,16 @@ public class FacePamphlet extends javax.swing.JFrame {
         );
 
         Canvas.add(Testing);
-        Testing.setBounds(130, 80, 0, 0);
+        Testing.setBounds(130, 80, 100, 100);
+
+        messageLabel.setText("Message:");
+        Canvas.add(messageLabel);
+        messageLabel.setBounds(10, 580, 60, 30);
+
+        messageDisplayLabel.setText("msg goes here");
+        messageDisplayLabel.setName("messageDisplayLabel"); // NOI18N
+        Canvas.add(messageDisplayLabel);
+        messageDisplayLabel.setBounds(70, 580, 640, 30);
 
         leftPane.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, java.awt.Color.lightGray, null, null));
         leftPane.setPreferredSize(new java.awt.Dimension(100, 0));
@@ -216,8 +246,8 @@ public class FacePamphlet extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(SearchLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(SearchField, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18))
+                .addComponent(SearchField, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         MenuBarLayout.setVerticalGroup(
             MenuBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -269,8 +299,8 @@ public class FacePamphlet extends javax.swing.JFrame {
                     .addComponent(leftCtrlPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(leftPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Canvas, javax.swing.GroupLayout.PREFERRED_SIZE, 733, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18))
+                .addComponent(Canvas, javax.swing.GroupLayout.PREFERRED_SIZE, 741, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
             .addComponent(MenuBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -345,8 +375,17 @@ public class FacePamphlet extends javax.swing.JFrame {
     }//GEN-LAST:event_SearchFieldActionPerformed
 
     private void profileSwitchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profileSwitchButtonActionPerformed
-        // T0D0: wipe Canvas of all current Objects, gracefully kill all current profile's data structures
-        // then initialize and display someone else's profile Objects
+    	//opens simple dialog, user types name of profile, Canvas switches to that layout
+    	String switchToThis;
+		try {
+			switchToThis = (String)JOptionPane.showInputDialog
+			        (Canvas, "You are changing currently signed-in user. Please enter the name of the user you wish to switch to:");
+			if (Canvas.FP_DB.getProfile(switchToThis) != null)
+	        	Canvas.displayProfile(Canvas.FP_DB.getProfile(switchToThis));
+		} catch (NullPointerException e) {
+			// prevent stack trace, lol
+		}
+        
         
     }//GEN-LAST:event_profileSwitchButtonActionPerformed
     private void formMousePressed(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_formMousePressed
@@ -394,16 +433,20 @@ public class FacePamphlet extends javax.swing.JFrame {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel Canvas;
+    private FaceFront.PamphletCanvas Canvas;
     private javax.swing.JPanel MenuBar;
     private javax.swing.JTextField SearchField;
     private javax.swing.JLabel SearchLabel;
     private javax.swing.JPanel Testing;
+    private javax.swing.JButton addFriendButton;
     private javax.swing.JButton addPostToProfile;
     private javax.swing.JButton changeProfilePicButton;
     private javax.swing.JButton homeButton;
     private javax.swing.JPanel leftCtrlPanel;
     private javax.swing.JPanel leftPane;
+    private javax.swing.JLabel messageDisplayLabel;
+    private javax.swing.JLabel messageLabel;
     private javax.swing.JButton profileSwitchButton;
+    private javax.swing.JButton removeFriendButton;
     // End of variables declaration//GEN-END:variables
 }

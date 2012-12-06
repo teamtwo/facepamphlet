@@ -24,7 +24,14 @@ import javax.swing.event.MouseInputListener;
 public class PamphletCanvas extends JPanel implements MouseInputListener {
 
     private Component dragTarget = null;
-
+    public FacePamphletProfile userProfile;
+    public FacePamphletProfile displayedProfile;
+    public FacePamphletDatabase FP_DB;
+    
+    private int dx = 0;
+    private int dy = 0;
+    private int mode = 0; //DRAG=0, INCREASE SIZE=1
+    
     public PamphletCanvas() {
         this.setOpaque(true);
         this.setForeground(Color.WHITE);
@@ -39,9 +46,7 @@ public class PamphletCanvas extends JPanel implements MouseInputListener {
 
         super.paintComponent(g);
     }
-    private int dx = 0;
-    private int dy = 0;
-    private int mode = 0; //DRAG=0, INCREASE SIZE=1
+
 
     public void mousePressed(MouseEvent evt) {
 
@@ -108,6 +113,7 @@ public class PamphletCanvas extends JPanel implements MouseInputListener {
      * network.
      */
     public void displayProfile(FacePamphletProfile profile) {
+        this.removeAll();
         
         
         // You fill this in

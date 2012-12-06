@@ -12,15 +12,14 @@ import javax.swing.JOptionPane;
 
 public class FacePamphletDatabase implements FacePamphletConstants {
 
+	
+	private TreeMap<String, FacePamphletProfile> profileMap = new TreeMap<String, FacePamphletProfile>();
+	
 	/** 
 	 * Constructor
 	 * This method takes care of any initialization needed for 
 	 * the database.
 	 */
-	
-	private TreeMap<String, FacePamphletProfile> profileMap = new TreeMap<String, FacePamphletProfile>();
-	
-	
 	public FacePamphletDatabase() 
 	{
 		//
