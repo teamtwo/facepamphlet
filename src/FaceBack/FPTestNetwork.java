@@ -24,6 +24,7 @@ public class FPTestNetwork {
         public FPTestNetwork()
         {
         	addPeeps();
+        	birthdays();
         	linkFriends();
         }
 
@@ -31,6 +32,15 @@ public class FPTestNetwork {
         {
         	return testDB;
         }
+        
+        public void birthdays()
+        {
+        	testUser.setBirthday(1, 3);
+        	rocco.setBirthday(5, 23);
+        	stuart.setBirthday(9, 6);
+        	will.setBirthday(8, 12);
+        }
+        
         
         public void addPeeps()
         {

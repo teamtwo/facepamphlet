@@ -18,16 +18,18 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
+import FaceBack.FacePamphletProfile;
+
 public class PictureSelect extends javax.swing.JFrame {
 
-    private final FacePamphlet parentProfile;
+    private final PamphletCanvas parentCanvas;
     
     /**
      * Creates new form PictureSelect
      */
-    public PictureSelect(FacePamphlet returnTo) {
-        this.parentProfile = returnTo;
-        parentProfile.setVisible(true);
+    public PictureSelect(PamphletCanvas returnTo) {
+        this.parentCanvas = returnTo;
+        parentCanvas.setVisible(true);
         initComponents();
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -181,7 +183,7 @@ public class PictureSelect extends javax.swing.JFrame {
         try {
             // GEN-FIRST:event_PictureChooseActionPerformed
             BufferedImage toAdd = ImageIO.read(new File(FilepathField.getText()));
-            this.parentProfile.addPicture(TextTitleField.getText(), toAdd);
+            this.parentCanvas.addPicture(TextTitleField.getText(), toAdd);
             this.formWindowClosed(null);
         } catch (IOException ex) {
             FilepathField.setBorder(BorderFactory.createLineBorder(Color.RED));

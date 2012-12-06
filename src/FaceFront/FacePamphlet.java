@@ -26,7 +26,7 @@ public class FacePamphlet extends javax.swing.JFrame {
     public static final Dimension buttonSize = new Dimension (89,23);
     public FacePamphletDatabase FP_DB;
     
-    public boolean inTestMode = true; 
+    public boolean inTestMode = true;
                     // ^ is a toggle for creation and population of 'test' social 
                     // network, as laid out in test-network.txt
     
@@ -40,7 +40,11 @@ public class FacePamphlet extends javax.swing.JFrame {
     public FacePamphlet() {
         this.initComponents();
         if (inTestMode)
+        {
             FP_DB = new FPTestNetwork().testDatabaseWithUsers();
+            Canvas.userProfile = FP_DB.getProfile("You. Yes, you!");
+            Canvas.FP_DB = FP_DB;
+        }
         this.setToolBar(ViewType.OTHER);
     }
 
@@ -55,7 +59,7 @@ public class FacePamphlet extends javax.swing.JFrame {
                 
                 addFriendButton.setPreferredSize(buttonSize);
                 removeFriendButton.setMinimumSize(buttonSize);
-                addPostToProfile.setMinimumSize(buttonSize);
+                addPostToProfile.setPreferredSize(buttonSize);
                 
                 leftPane.add(addFriendButton);
                 leftPane.add(removeFriendButton);
@@ -75,22 +79,6 @@ public class FacePamphlet extends javax.swing.JFrame {
     }
     
     
-    //T0D0: get some handling code that actually checks to see if shit's
-    //been repainted properly. HW-style Asserts?
-    public boolean addPicture(String title, BufferedImage toAdd) {
-        ImagePanel y = new ImagePanel(title, toAdd);
-        y.setBounds(this.getWidth() / 2 -100, this.getHeight() /2 -100, 200, 200);
-        y.repaint();
-        y.setVisible(true);
-        Canvas.add(y);
-        Canvas.repaint();
-        
-        return true;
-    }
-    
-    
-
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -106,8 +94,7 @@ public class FacePamphlet extends javax.swing.JFrame {
         addFriendButton = new javax.swing.JButton();
         Canvas = new PamphletCanvas();
         Testing = new javax.swing.JPanel();
-        messageLabel = new javax.swing.JLabel();
-        messageDisplayLabel = new javax.swing.JLabel();
+
         leftPane = new javax.swing.JPanel();
         MenuBar = new javax.swing.JPanel(){
 
@@ -129,18 +116,17 @@ public class FacePamphlet extends javax.swing.JFrame {
             }
         });
 
-        addPostToProfile.setText("AddPost");
+        addPostToProfile.setText("Add Post");
         addPostToProfile.setMaximumSize(new java.awt.Dimension(59, 23));
         addPostToProfile.setMinimumSize(new java.awt.Dimension(59, 23));
 
-        removeFriendButton.setLabel("Remove");
+        removeFriendButton.setText("Nix Friend");
         removeFriendButton.setMaximumSize(new java.awt.Dimension(89, 23));
         removeFriendButton.setMinimumSize(new java.awt.Dimension(89, 23));
 
-        addFriendButton.setText("Add");
+        addFriendButton.setText("Add Friend");
         addFriendButton.setMaximumSize(new java.awt.Dimension(89, 23));
         addFriendButton.setMinimumSize(new java.awt.Dimension(89, 23));
-        addFriendButton.setPreferredSize(new java.awt.Dimension(89, 23));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("FacePamphlet");
@@ -194,15 +180,6 @@ public class FacePamphlet extends javax.swing.JFrame {
 
         Canvas.add(Testing);
         Testing.setBounds(130, 80, 100, 100);
-
-        messageLabel.setText("Message:");
-        Canvas.add(messageLabel);
-        messageLabel.setBounds(10, 580, 60, 30);
-
-        messageDisplayLabel.setText("msg goes here");
-        messageDisplayLabel.setName("messageDisplayLabel"); // NOI18N
-        Canvas.add(messageDisplayLabel);
-        messageDisplayLabel.setBounds(70, 580, 640, 30);
 
         leftPane.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, java.awt.Color.lightGray, null, null));
         leftPane.setPreferredSize(new java.awt.Dimension(100, 0));
@@ -267,8 +244,14 @@ public class FacePamphlet extends javax.swing.JFrame {
             }
         });
 
-        homeButton.setLabel("Home");
-
+        homeButton.setText("Home");
+        homeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                homeButtonActionPerformed(evt);
+            }
+        });
+        
+        
         javax.swing.GroupLayout leftCtrlPanelLayout = new javax.swing.GroupLayout(leftCtrlPanel);
         leftCtrlPanel.setLayout(leftCtrlPanelLayout);
         leftCtrlPanelLayout.setHorizontalGroup(
@@ -326,11 +309,12 @@ public class FacePamphlet extends javax.swing.JFrame {
     //|                                                          |
     //------------------------------------------------------------
     
-    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+
+	private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
     }//GEN-LAST:event_formMouseClicked
 
     private void changeProfilePicButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeProfilePicButtonActionPerformed
-       new PictureSelect(this);
+       new PictureSelect(Canvas);
     }//GEN-LAST:event_changeProfilePicButtonActionPerformed
 
     private void CanvasMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CanvasMouseDragged
@@ -365,7 +349,7 @@ public class FacePamphlet extends javax.swing.JFrame {
         SearchField.setForeground(Color.BLACK);    }//GEN-LAST:event_SearchFieldFocusGained
 
     private void SearchFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_SearchFieldFocusLost
-        if (SearchField.getText().trim().equals("")) {
+        if (SearchField.getText().equals("")) {
             SearchField.setText("search for friends");
             SearchField.setForeground(Color.GRAY);
         }    }//GEN-LAST:event_SearchFieldFocusLost
@@ -385,9 +369,19 @@ public class FacePamphlet extends javax.swing.JFrame {
 		} catch (NullPointerException e) {
 			// prevent stack trace, lol
 		}
-        
-        
     }//GEN-LAST:event_profileSwitchButtonActionPerformed
+    
+    private void homeButtonActionPerformed(ActionEvent evt) {
+		// TODO Auto-generated method stub
+		try {
+			Canvas.displayProfile(Canvas.userProfile);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println("IMPOSSIBRU: ");
+			e.printStackTrace();
+		}
+	}
+    
     private void formMousePressed(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_formMousePressed
     }// GEN-LAST:event_formMousePressed
 
@@ -444,8 +438,7 @@ public class FacePamphlet extends javax.swing.JFrame {
     private javax.swing.JButton homeButton;
     private javax.swing.JPanel leftCtrlPanel;
     private javax.swing.JPanel leftPane;
-    private javax.swing.JLabel messageDisplayLabel;
-    private javax.swing.JLabel messageLabel;
+
     private javax.swing.JButton profileSwitchButton;
     private javax.swing.JButton removeFriendButton;
     // End of variables declaration//GEN-END:variables

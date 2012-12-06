@@ -37,7 +37,7 @@ public class ImagePanel extends FPPanel {
 
     public ImagePanel(String photoName, BufferedImage newImage) {
         super();
-                System.out.println(photoName );
+                //System.out.println(photoName );
 
         this.changeImage(photoName, newImage);
 
@@ -109,22 +109,12 @@ public class ImagePanel extends FPPanel {
         dsPic = toMakeInto;
         picTitle = photoName;
         if (picTitle != null && !picTitle.equals("")) {
-            this.setBorder(BorderFactory.createEtchedBorder());
+            this.setBorder(BorderFactory.createTitledBorder(picTitle));
         } else {
             this.setBorder(BorderFactory.createEmptyBorder());
         }
     }
 
-    public void paintComponent(Graphics g) {
-
-        if (dsPic != null) {
-            g.drawImage(dsPic, xOffset, yOffset, width, height, null);
-        }
-        super.paintComponents(g);
-    }
-    
-    
-    
     
     public static BufferedImage loadImage(String aPicFile) {
 		try {
@@ -135,6 +125,14 @@ public class ImagePanel extends FPPanel {
 			return null;
 		}
 	}
+    
+    public void paintComponent(Graphics g) {
+
+        if (dsPic != null) {
+            g.drawImage(dsPic, xOffset, yOffset, width, height, null);
+        }
+        super.paintComponents(g);
+    }
     
     
 }

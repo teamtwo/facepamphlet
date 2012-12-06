@@ -16,8 +16,8 @@ public class FacePamphletProfile implements FacePamphletConstants {
 	private String NAME;
 	private String STATUS;
 	private String BIO;
-	private int BIRTHDAY_MONTH;
-	private int BIRTHDAY_DATE;
+	private int BIRTHDAY_MONTH = 1;
+	private int BIRTHDAY_DATE = 1;
 	private ImagePanel PROFILE_PICTURE;
 	
 	private TreeMap<String, FacePamphletProfile> friendMap = new TreeMap<String, FacePamphletProfile>();
@@ -460,7 +460,7 @@ public class FacePamphletProfile implements FacePamphletConstants {
 	 * @return this profile's BIRTHDAY_MONTH
 	 */
 	public int getBirthdayMonth(){
-		return BIRTHDAY_MONTH;
+			return BIRTHDAY_MONTH;
 	}
 	/**
 	 * This method returns the birthday day associated with the profile
