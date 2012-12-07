@@ -13,8 +13,8 @@ public class FPTestNetwork {
 	
         FacePamphletDatabase testDB = new FacePamphletDatabase();
         FacePamphletProfile testUser = new FacePamphletProfile("You. Yes, you!");
-        FacePamphletProfile timmy = new FacePamphletProfile("You. Yes, you!");        
-        FacePamphletProfile jimmy = new FacePamphletProfile("You. Yes, you!");
+        FacePamphletProfile timmy = new FacePamphletProfile("Timmy");        
+        FacePamphletProfile jimmy = new FacePamphletProfile("Jimmy");
         FacePamphletProfile mom = new FacePamphletProfile("Your Mother");
         FacePamphletProfile dad = new FacePamphletProfile("Your Father");
         FacePamphletProfile stuart = new FacePamphletProfile("Stuart Townsend");
@@ -25,6 +25,7 @@ public class FPTestNetwork {
         {
         	addPeeps();
         	birthdays();
+        	bios();
         	linkFriends();
         }
 
@@ -33,15 +34,14 @@ public class FPTestNetwork {
         	return testDB;
         }
         
-        public void birthdays()
+        
+        public void bios()
         {
-        	testUser.setBirthday(1, 3);
-        	rocco.setBirthday(5, 23);
-        	stuart.setBirthday(9, 6);
-        	will.setBirthday(8, 12);
+        	testUser.setBio("I was raised by a cup of coffee!");
+        	stuart.setBio("!!");
+        	will.setBio("rrafh");
+        	rocco.setBio("sir not appearing on social networking sites");
         }
-        
-        
         public void addPeeps()
         {
             testDB.addProfile(testUser);
@@ -52,6 +52,13 @@ public class FPTestNetwork {
             testDB.addProfile(stuart);
             testDB.addProfile(rocco);
             testDB.addProfile(will);
+        }
+        public void birthdays()
+        {
+        	testUser.setBirthday(1, 3);
+        	rocco.setBirthday(5, 23);
+        	stuart.setBirthday(9, 6);
+        	will.setBirthday(8, 12);
         }
         public void linkFriends()
         {

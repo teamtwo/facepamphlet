@@ -88,29 +88,30 @@ public class PamphletCanvas extends JPanel implements MouseInputListener {
      */
     public void displayProfile(FacePamphletProfile profile) {
         this.removeAll();
+        this.repaint();
         
         //init message-bar
         messageLabel.setText("Message:");
-        this.add(messageLabel);
         messageLabel.setBounds(10, 580, msgLabel.width, msgLabel.height);
+        this.add(messageLabel);
+
         messageDisplayLabel.setText("msg goes here");
-        this.add(messageDisplayLabel);
         messageDisplayLabel.setBounds(70, 580, msgText.width, msgText.height);
+        this.add(messageDisplayLabel);
         
         //init basic profile data
         TextPanel userInfo = new TextPanel(profile.getName());
         userInfo.setText("B-Day: "+profile.getBirthdayMonth()+"/"+profile.getBirthdayDate());
-        //userInfo.setBounds(250, 250, 300, 150);
-        userInfo.setLocation(25, 25);
+        userInfo.setBounds(20, 20, 300, 150);
+
+        TextPanel userBio = new TextPanel("About Me:");
+        userBio.setText(profile.getBio());
+        userBio.setBounds(330, 20, 300, 150);
         
-        userInfo.repaint();
         this.add(userInfo);
-        if (userInfo.isShowing())
-        	System.out.println("AARGH"+userInfo.size().toString());
-
-
-        this.repaint();
+        this.add(userBio);
         
+        this.repaint();
     }
     
     

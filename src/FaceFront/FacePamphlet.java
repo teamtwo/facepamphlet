@@ -52,7 +52,7 @@ public class FacePamphlet extends javax.swing.JFrame {
         leftPane.removeAll();
         switch (setTo) {
             case OTHER:
-                //changeProfilePicButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+                changeProfilePicButton.setAlignmentX(Component.CENTER_ALIGNMENT);
                 addFriendButton.setAlignmentX(Component.CENTER_ALIGNMENT);
                 removeFriendButton.setAlignmentX(Component.CENTER_ALIGNMENT);
                 addPostToProfile.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -61,6 +61,8 @@ public class FacePamphlet extends javax.swing.JFrame {
                 removeFriendButton.setMinimumSize(buttonSize);
                 addPostToProfile.setPreferredSize(buttonSize);
                 
+                
+                leftPane.add(changeProfilePicButton);
                 leftPane.add(addFriendButton);
                 leftPane.add(removeFriendButton);
                 leftPane.add(addPostToProfile);
@@ -360,15 +362,20 @@ public class FacePamphlet extends javax.swing.JFrame {
 
     private void profileSwitchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profileSwitchButtonActionPerformed
     	//opens simple dialog, user types name of profile, Canvas switches to that layout
-    	String switchToThis;
+    	String switchToThis = "!";
 		try {
 			switchToThis = (String)JOptionPane.showInputDialog
 			        (Canvas, "You are changing currently signed-in user. Please enter the name of the user you wish to switch to:");
+
 			if (Canvas.FP_DB.getProfile(switchToThis) != null)
+			{
 	        	Canvas.displayProfile(Canvas.FP_DB.getProfile(switchToThis));
+			}
 		} catch (NullPointerException e) {
 			// prevent stack trace, lol
 		}
+		System.out.println(Canvas.FP_DB.getProfile("printz: "+switchToThis).toString());
+
     }//GEN-LAST:event_profileSwitchButtonActionPerformed
     
     private void homeButtonActionPerformed(ActionEvent evt) {

@@ -14,7 +14,7 @@ import javax.swing.*;
 public class TextPanel extends FPPanel{
 
 	public String panelTitle;
-    public JLabel panelText = new JLabel("");
+    public JLabel panelText = new JLabel();
     private int xOffset = 0;
     private int yOffset = 0;
     private int width = 0;
@@ -26,16 +26,23 @@ public class TextPanel extends FPPanel{
         //this.setMinimumSize(new Dimension(500,500));
         this.setPreferredSize(new Dimension(250,250));
         this.setMaximumSize(new Dimension(500,500));
+        this.setBorder(BorderFactory.createTitledBorder(""));
+
+        panelText.setPreferredSize(new Dimension (400, 400));
+        panelText.setBounds(20, 10, this.getSize().width-10, this.getSize().height-10);
+        //panelText.setBorder(BorderFactory.createLoweredBevelBorder());
+
+
         this.add(panelText);
-        //panelText.setBorder(BorderFactory.createTitledBorder(""));
        
-        this.repaint();
         this.addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) {
                 TextPanel.this.componentResized(e);
             }
         });
         this.componentResized(null);
+        this.repaint();
+
     }
 	
     public TextPanel(String titleName) {
@@ -44,16 +51,23 @@ public class TextPanel extends FPPanel{
         //this.setMinimumSize(new Dimension(500,500));
         this.setPreferredSize(new Dimension(250,250));
         this.setMaximumSize(new Dimension(500,500));
-        panelText.setBorder(BorderFactory.createTitledBorder(titleName));
+        this.setBorder(BorderFactory.createTitledBorder(titleName));
+        
+        panelText.setPreferredSize(new Dimension (400, 400));
+        panelText.setBounds(20, 10, this.getSize().width-10, this.getSize().height-10);
+        //panelText.setBorder(BorderFactory.createLoweredBevelBorder());
+        
+
         this.add(panelText);
 
-        this.repaint();
         this.addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) {
                 TextPanel.this.componentResized(e);
             }
         });
         this.componentResized(null);
+        this.repaint();
+
     }
     
     
@@ -86,7 +100,10 @@ public class TextPanel extends FPPanel{
         TextPanel.this.height = (int) (scaleBy * picHeight);
         TextPanel.this.xOffset = (newWidth - width) / 2;
         TextPanel.this.yOffset = (newHeight - height) / 2;
+        
+        panelText.setBounds(20, 0, this.getSize().width-10, this.getSize().height-10);
 
+        
     }
 	
     public void paintComponent(Graphics g) {
