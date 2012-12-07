@@ -26,6 +26,7 @@ While not exposed by the frontend, the backend is able to support many other thi
 * making subaccounts for your cats
 * simulated hacking
 
+Tests for these features are included.
 
 Prerequisites
 ------------
